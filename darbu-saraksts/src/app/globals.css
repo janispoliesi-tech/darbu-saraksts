@@ -1,0 +1,722 @@
+/* ============================================================================
+   DARBU SARAKSTS — vienotais stils (telefons / planšete / dators)
+   ========================================================================= */
+
+/* --- 1. Krāsas un mainīgie ------------------------------------------------ */
+:root {
+  color-scheme: light dark;
+
+  --bg: #f4f6f8;
+  --bg-elev: #ffffff;
+  --bg-sunken: #eceff3;
+  --line: #e2e7ee;
+  --line-strong: #cbd4df;
+  --text: #16202c;
+  --text-soft: #5d6b7c;
+  --text-faint: #8b97a6;
+
+  --accent: #0d9488;
+  --accent-text: #ffffff;
+
+  --danger: #d8434b;
+  --warn: #dd8a09;
+  --calm: #8d9cae;
+
+  --sc-teal: #0d9488;
+  --sc-green: #3f8f2f;
+  --sc-amber: #b5811a;
+  --sc-orange: #d1621f;
+  --sc-red: #cf3a41;
+  --sc-pink: #c23c7d;
+  --sc-violet: #7852cf;
+  --sc-blue: #2570d8;
+  --sc-slate: #5c6b7d;
+
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 20px;
+
+  --shadow-sm: 0 1px 2px rgba(16, 27, 40, 0.06);
+  --shadow-md: 0 4px 14px rgba(16, 27, 40, 0.09);
+  --shadow-lg: 0 18px 48px rgba(16, 27, 40, 0.22);
+
+  --maxw: 760px;
+  --header-h: 52px;
+  --tabs-h: 50px;
+  --row-pad: 7px;
+}
+
+/* Tumšās krāsas: automātiski pēc ierīces… */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #12171d;
+    --bg-elev: #1a2129;
+    --bg-sunken: #0e141a;
+    --line: #2a333d;
+    --line-strong: #3d4956;
+    --text: #e8edf3;
+    --text-soft: #9daabb;
+    --text-faint: #71808f;
+    --accent: #2dd4bf;
+    --accent-text: #06281f;
+    --danger: #ff6b6b;
+    --warn: #eaa33a;
+    --calm: #64748b;
+    --sc-teal: #2dd4bf;
+    --sc-green: #6fd043;
+    --sc-amber: #e8b44a;
+    --sc-orange: #f5904f;
+    --sc-red: #ff7a80;
+    --sc-pink: #f277b4;
+    --sc-violet: #a68cf5;
+    --sc-blue: #64a6ff;
+    --sc-slate: #9aa9ba;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 20px 52px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* …vai izvēlēts iestatījumos */
+:root[data-theme='dark'] {
+  --bg: #12171d;
+  --bg-elev: #1a2129;
+  --bg-sunken: #0e141a;
+  --line: #2a333d;
+  --line-strong: #3d4956;
+  --text: #e8edf3;
+  --text-soft: #9daabb;
+  --text-faint: #71808f;
+  --accent: #2dd4bf;
+  --accent-text: #06281f;
+  --danger: #ff6b6b;
+  --warn: #eaa33a;
+  --calm: #64748b;
+  --sc-teal: #2dd4bf;
+  --sc-green: #6fd043;
+  --sc-amber: #e8b44a;
+  --sc-orange: #f5904f;
+  --sc-red: #ff7a80;
+  --sc-pink: #f277b4;
+  --sc-violet: #a68cf5;
+  --sc-blue: #64a6ff;
+  --sc-slate: #9aa9ba;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 52px rgba(0, 0, 0, 0.6);
+}
+
+/* Sadaļu krāsas — piešķir ar data-color="teal" utt. */
+[data-color='teal']   { --sc: var(--sc-teal); }
+[data-color='green']  { --sc: var(--sc-green); }
+[data-color='amber']  { --sc: var(--sc-amber); }
+[data-color='orange'] { --sc: var(--sc-orange); }
+[data-color='red']    { --sc: var(--sc-red); }
+[data-color='pink']   { --sc: var(--sc-pink); }
+[data-color='violet'] { --sc: var(--sc-violet); }
+[data-color='blue']   { --sc: var(--sc-blue); }
+[data-color='slate']  { --sc: var(--sc-slate); }
+
+/* --- 2. Pamats ------------------------------------------------------------ */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, 'Noto Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+h1, h2, h3, p { margin: 0; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+.icon { width: 1.25em; height: 1.25em; flex: none; display: block; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* --- 3. Augšējā josla ----------------------------------------------------- */
+.app { min-height: 100%; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  background: color-mix(in srgb, var(--bg-elev) 90%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding-top: env(safe-area-inset-top);
+}
+
+.topbar-inner {
+  max-width: var(--maxw); margin: 0 auto; height: var(--header-h);
+  display: flex; align-items: center; gap: 6px; padding: 0 8px 0 12px;
+}
+
+.brand-mark {
+  width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-text); flex: none;
+}
+.brand-mark .icon { width: 17px; height: 17px; }
+
+/* Saraksta nosaukums = pārslēdzējs */
+.board-pick {
+  display: flex; align-items: center; gap: 5px; min-width: 0; flex: 1;
+  padding: 6px 10px; margin-left: 2px;
+  border-radius: 10px; border: 1px solid transparent; background: transparent;
+  font-size: 16px; font-weight: 700; letter-spacing: -0.015em; color: var(--text);
+}
+.board-pick span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.board-pick .icon { width: 16px; height: 16px; color: var(--text-faint); }
+.board-pick:hover { background: var(--bg-sunken); }
+
+.topbar-actions { display: flex; align-items: center; gap: 2px; flex: none; }
+
+/* --- 4. Sadaļu cilnes (horizontāli ritināmas) ----------------------------- */
+.tabs-outer {
+  position: sticky; top: calc(var(--header-h) + env(safe-area-inset-top)); z-index: 25;
+  background: color-mix(in srgb, var(--bg-elev) 90%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs-scroller {
+  max-width: var(--maxw); margin: 0 auto; display: flex; gap: 6px;
+  padding: 8px 12px; overflow-x: auto; scrollbar-width: none;
+  scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+}
+.tabs-scroller::-webkit-scrollbar { display: none; }
+
+.tab {
+  --sc: var(--sc-slate);
+  display: inline-flex; align-items: center; gap: 7px; flex: none;
+  scroll-snap-align: start; padding: 7px 12px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--bg-elev);
+  color: var(--text-soft); font-weight: 600; font-size: 14px; white-space: nowrap;
+  transition: background 0.16s, color 0.16s, border-color 0.16s, transform 0.12s;
+}
+.tab:active { transform: scale(0.97); }
+.tab .icon { width: 17px; height: 17px; color: var(--sc); }
+
+.tab-count {
+  display: inline-grid; place-items: center; min-width: 18px; height: 18px;
+  padding: 0 5px; border-radius: 999px; background: var(--bg-sunken);
+  color: var(--text-faint); font-size: 11.5px; font-weight: 700;
+}
+
+.tab.is-active {
+  background: color-mix(in srgb, var(--sc) 14%, var(--bg-elev));
+  border-color: color-mix(in srgb, var(--sc) 45%, transparent);
+  color: color-mix(in srgb, var(--sc) 70%, var(--text));
+}
+.tab.is-active .tab-count {
+  background: color-mix(in srgb, var(--sc) 22%, transparent);
+  color: color-mix(in srgb, var(--sc) 80%, var(--text));
+}
+
+.tab-shared { width: 14px; height: 14px; color: var(--text-faint); opacity: 0.8; }
+.tab.is-active .tab-shared { color: inherit; opacity: 0.9; }
+
+.tab-add {
+  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  padding: 7px 12px; border-radius: 999px;
+  border: 1.5px dashed var(--line-strong); background: transparent;
+  color: var(--text-soft); font-weight: 600; font-size: 14px; white-space: nowrap;
+}
+.tab-add:hover { color: var(--accent); border-color: var(--accent); }
+
+/* --- 5. Galvenais saturs -------------------------------------------------- */
+.main {
+  flex: 1; width: 100%; max-width: var(--maxw); margin: 0 auto;
+  padding: 12px 12px calc(86px + env(safe-area-inset-bottom));
+}
+
+.section-head {
+  display: flex; align-items: center; gap: 8px; margin: 2px 2px 10px;
+}
+.section-title {
+  display: flex; align-items: center; gap: 9px; min-width: 0;
+  font-size: 19px; font-weight: 700; letter-spacing: -0.02em;
+}
+.section-title .icon { width: 20px; height: 20px; color: var(--sc); }
+.section-title span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.section-tools { margin-left: auto; display: flex; align-items: center; gap: 2px; flex: none; }
+
+/* --- 6. Darbu saraksts (kompakts) ----------------------------------------- */
+.app[data-density='cozy'] { --row-pad: 12px; }
+
+.list {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.list + .list { margin-top: 0; }
+
+.task {
+  --prio: transparent;
+  display: flex; align-items: center; gap: 9px;
+  padding: var(--row-pad) 6px var(--row-pad) 0;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s;
+}
+.task:last-child { border-bottom: none; }
+/* Prioritātes krāsa — svītra pa visu rindas augstumu */
+.task { box-shadow: inset 3px 0 0 0 var(--prio); }
+.task:hover { background: color-mix(in srgb, var(--text) 3%, transparent); }
+
+.app[data-prio='on'] .task.prio-1 { --prio: var(--danger); }
+.app[data-prio='on'] .task.prio-2 { --prio: var(--warn); }
+.app[data-prio='on'] .task.prio-3 { --prio: var(--calm); }
+.task.is-done { --prio: transparent !important; }
+
+.tickbox {
+  flex: none; width: 21px; height: 21px; margin-left: 9px;
+  border-radius: 7px; border: 2px solid var(--line-strong); background: transparent;
+  display: grid; place-items: center; color: transparent;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.tickbox .icon { width: 13px; height: 13px; }
+.tickbox:hover { border-color: var(--accent); }
+.tickbox.on { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+
+.task-main {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;
+  border: none; background: transparent; padding: 2px 0; text-align: left;
+}
+.task-text { flex: 1; min-width: 0; }
+.task-title { font-size: 15px; font-weight: 500; word-break: break-word; display: block; }
+.task-note {
+  font-size: 12.5px; color: var(--text-soft); margin-top: 1px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.task.is-done { opacity: 0.5; }
+.task.is-done .task-title,
+.task.is-done .task-note { text-decoration: line-through; color: var(--text-soft); }
+
+.task-badges { display: flex; align-items: center; gap: 5px; flex: none; }
+
+.mini {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11.5px; font-weight: 650; color: var(--text-faint);
+  background: var(--bg-sunken); border-radius: 999px; padding: 2px 7px;
+  white-space: nowrap;
+}
+.mini .icon { width: 12px; height: 12px; }
+.mini.overdue { color: var(--danger); background: color-mix(in srgb, var(--danger) 13%, transparent); }
+.mini.today { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, transparent); }
+.note-dot { width: 13px; height: 13px; color: var(--text-faint); opacity: 0.7; flex: none; }
+
+.icon-btn {
+  width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: 9px; border: none; background: transparent; color: var(--text-faint);
+  transition: background 0.15s, color 0.15s; flex: none;
+}
+.icon-btn:hover { background: var(--bg-sunken); color: var(--text); }
+.icon-btn.danger:hover { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); }
+.icon-btn .icon { width: 17px; height: 17px; }
+.icon-btn.tiny { width: 28px; height: 28px; }
+.icon-btn.tiny .icon { width: 15px; height: 15px; }
+/* Poga „kopīgot sadaļu“ ar dalībnieku skaitu */
+.chip-btn {
+  display: inline-flex; align-items: center; gap: 5px; height: 32px; padding: 0 11px;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--bg-elev);
+  color: var(--text-soft); font-size: 13px; font-weight: 650; flex: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.chip-btn .icon { width: 16px; height: 16px; }
+.chip-btn:hover { border-color: var(--line-strong); color: var(--text); }
+.chip-btn.on {
+  color: color-mix(in srgb, var(--accent) 80%, var(--text));
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+}
+
+.privacy-note {
+  display: flex; gap: 11px; align-items: flex-start;
+  padding: 12px; border-radius: var(--radius-sm);
+  background: var(--bg-sunken); color: var(--text-soft);
+}
+.privacy-note .icon { width: 19px; height: 19px; flex: none; margin-top: 2px; color: var(--text-faint); }
+.privacy-note b { display: block; color: var(--text); font-size: 14.5px; }
+.privacy-note p { font-size: 13px; margin-top: 2px; }
+
+/* Izpildīto darbu atdalītājs */
+.done-head {
+  display: flex; align-items: center; gap: 8px; margin: 16px 2px 6px;
+  color: var(--text-faint); font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.done-head .grow { flex: 1; height: 1px; background: var(--line); }
+.done-head button { text-transform: none; letter-spacing: 0; }
+
+.linkbtn {
+  border: none; background: transparent; color: var(--text-soft);
+  font-size: 12.5px; font-weight: 600; padding: 3px 6px; border-radius: 7px;
+}
+.linkbtn:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+
+.empty {
+  text-align: center; padding: 34px 20px; color: var(--text-faint);
+  border: 1.5px dashed var(--line); border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-elev) 55%, transparent);
+}
+.empty .icon { width: 30px; height: 30px; margin-bottom: 8px; opacity: 0.55; }
+.empty b { display: block; color: var(--text-soft); font-size: 14.5px; margin-bottom: 2px; }
+.empty p { font-size: 13px; }
+
+/* --- 7. Jauna darba josla ekrāna APAKŠĀ ----------------------------------- */
+.quickadd {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-top: 1px solid var(--line);
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+}
+.quickadd-inner {
+  max-width: var(--maxw); margin: 0 auto;
+  display: flex; align-items: center; gap: 4px;
+  background: var(--bg-elev); border: 1px solid var(--line);
+  border-radius: 999px; padding: 3px 3px 3px 14px;
+  box-shadow: var(--shadow-sm);
+}
+.quickadd-inner:focus-within { border-color: var(--accent); }
+.qa-input {
+  flex: 1; min-width: 0; border: none; background: transparent;
+  padding: 8px 0; font-size: 15.5px;
+}
+.qa-input:focus { outline: none; }
+.qa-input::placeholder { color: var(--text-faint); }
+.qa-btn {
+  width: 34px; height: 34px; border-radius: 999px; border: none;
+  display: grid; place-items: center; background: transparent; color: var(--text-faint);
+  flex: none;
+}
+.qa-btn:hover { background: var(--bg-sunken); color: var(--text); }
+.qa-btn .icon { width: 17px; height: 17px; }
+.qa-send { background: var(--accent); color: var(--accent-text); }
+.qa-send:hover { background: var(--accent); filter: brightness(1.07); color: var(--accent-text); }
+.qa-send[disabled] { opacity: 0.35; pointer-events: none; }
+
+/* --- 8. Pogas un lauki ---------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  border-radius: var(--radius-sm); border: 1px solid var(--line);
+  background: var(--bg-elev); color: var(--text);
+  font-size: 15px; font-weight: 650; padding: 9px 15px; min-height: 40px;
+  transition: filter 0.15s, background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.btn:hover { border-color: var(--line-strong); }
+.btn:active { transform: scale(0.98); }
+.btn[disabled] { opacity: 0.5; pointer-events: none; }
+.btn .icon { width: 17px; height: 17px; }
+
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.btn-primary:hover { filter: brightness(1.06); border-color: var(--accent); }
+.btn-danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, var(--line)); background: transparent; }
+.btn-danger:hover { background: color-mix(in srgb, var(--danger) 12%, transparent); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--text-soft); }
+.btn-ghost:hover { background: var(--bg-sunken); color: var(--text); }
+.btn-block { width: 100%; }
+.btn-sm { min-height: 34px; padding: 6px 12px; font-size: 13.5px; border-radius: 9px; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.label { font-size: 12.5px; font-weight: 700; color: var(--text-soft); }
+
+.input, .textarea, .select {
+  width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--text);
+  border-radius: var(--radius-sm); padding: 9px 12px; font-size: 15.5px; min-height: 40px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus, .textarea:focus, .select:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.textarea { min-height: 72px; resize: vertical; line-height: 1.45; }
+.select {
+  appearance: none; padding-right: 32px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-soft) 50%),
+    linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
+  background-position: calc(100% - 16px) 54%, calc(100% - 11px) 54%;
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+.select-sm { min-height: 34px; padding: 5px 30px 5px 10px; font-size: 13.5px; width: auto; }
+
+.hint { font-size: 12.5px; color: var(--text-faint); line-height: 1.45; }
+
+.alert { border-radius: var(--radius-sm); padding: 9px 12px; font-size: 13.5px; font-weight: 550; border: 1px solid transparent; }
+.alert-error { background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger); border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
+.alert-ok { background: color-mix(in srgb, var(--accent) 13%, transparent); color: color-mix(in srgb, var(--accent) 80%, var(--text)); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+
+/* --- 9. Modālie logi ------------------------------------------------------ */
+.backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(10, 16, 22, 0.5); backdrop-filter: blur(3px);
+  display: flex; align-items: flex-end; justify-content: center;
+  animation: fade 0.16s ease-out;
+}
+@keyframes fade { from { opacity: 0; } }
+@keyframes slideUp { from { transform: translateY(18px); opacity: 0.4; } }
+
+.modal {
+  width: 100%; max-width: 500px; background: var(--bg-elev);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: var(--shadow-lg);
+  max-height: 92vh; display: flex; flex-direction: column;
+  animation: slideUp 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.modal-head {
+  display: flex; align-items: center; gap: 9px; padding: 15px 14px 9px;
+  font-size: 16.5px; font-weight: 700;
+}
+.modal-head .icon-btn { margin-left: auto; }
+.modal-body { padding: 4px 14px 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 13px; }
+.modal-foot {
+  display: flex; gap: 8px; padding: 11px 14px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+}
+.modal-foot .btn { flex: 1; }
+.modal-foot .btn-icon-only { flex: none; }
+
+/* --- 10. Ikonu un krāsu izvēle -------------------------------------------- */
+.picker-group + .picker-group { margin-top: 10px; }
+.picker-label {
+  font-size: 11px; font-weight: 700; color: var(--text-faint);
+  text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px;
+}
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 5px; }
+.icon-choice {
+  aspect-ratio: 1; display: grid; place-items: center; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--text-soft);
+  transition: all 0.14s;
+}
+.icon-choice .icon { width: 20px; height: 20px; }
+.icon-choice:hover { border-color: var(--line-strong); color: var(--text); }
+.icon-choice.on { background: color-mix(in srgb, var(--sc) 16%, var(--bg-elev)); border-color: var(--sc); color: var(--sc); }
+
+.color-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.color-dot {
+  width: 30px; height: 30px; border-radius: 999px; border: 2px solid transparent;
+  background: var(--bg); display: grid; place-items: center; padding: 0;
+}
+.color-dot i { width: 19px; height: 19px; border-radius: 999px; background: var(--sc); display: block; }
+.color-dot.on { border-color: var(--sc); }
+
+.scroll-box { max-height: 200px; overflow-y: auto; padding-right: 2px; }
+
+/* --- 10b. Sākuma lapa ----------------------------------------------------- */
+.home-brand { font-size: 16.5px; font-weight: 700; letter-spacing: -0.015em; margin-left: 8px; }
+
+.home-greet { margin: 4px 2px 18px; }
+.home-title { font-size: 25px; font-weight: 700; letter-spacing: -0.025em; }
+.home-sub { font-size: 14.5px; color: var(--text-soft); margin-top: 2px; }
+
+.home-head {
+  font-size: 11.5px; font-weight: 700; color: var(--text-faint);
+  text-transform: uppercase; letter-spacing: 0.07em; margin: 20px 2px 8px;
+}
+.home-head:first-of-type { margin-top: 0; }
+
+.board-grid { display: grid; gap: 9px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .board-grid { grid-template-columns: 1fr 1fr; } }
+
+.board-card {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  padding: 13px 13px 13px 12px; background: var(--bg-elev);
+  border: 1px solid var(--line); border-radius: var(--radius);
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.board-card:hover { border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+.board-card:active { transform: scale(0.99); }
+.board-card[disabled] { opacity: 0.5; pointer-events: none; }
+
+.board-card-icon {
+  width: 38px; height: 38px; border-radius: 11px; flex: none;
+  display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: color-mix(in srgb, var(--accent) 85%, var(--text));
+}
+.board-card-icon .icon { width: 19px; height: 19px; }
+.board-card-icon.dashed {
+  background: transparent; border: 1.5px dashed var(--line-strong); color: var(--text-faint);
+}
+
+.board-card-main { flex: 1; min-width: 0; }
+.board-card-name {
+  display: block; font-size: 16px; font-weight: 650; letter-spacing: -0.01em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.board-card-meta { display: block; font-size: 12.5px; color: var(--text-faint); margin-top: 1px; }
+
+.board-card-count {
+  flex: none; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px;
+  display: grid; place-items: center; font-size: 12.5px; font-weight: 700;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: color-mix(in srgb, var(--accent) 85%, var(--text));
+}
+.board-card-chev { color: var(--text-faint); width: 17px; height: 17px; flex: none; }
+
+/* --- 11. Iestatījumu lapa ------------------------------------------------- */
+.page { flex: 1; width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 14px 12px 50px; }
+
+.pagebar { display: flex; align-items: center; gap: 4px; }
+.pagebar-title { font-size: 17px; font-weight: 700; letter-spacing: -0.015em; }
+
+.card {
+  background: var(--bg-elev); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden;
+}
+.card + .card { margin-top: 14px; }
+.card-head {
+  padding: 11px 14px 9px; font-size: 11.5px; font-weight: 700;
+  color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.07em;
+  border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg-sunken) 55%, transparent);
+}
+
+.row {
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px;
+  border-bottom: 1px solid var(--line); width: 100%; text-align: left;
+  background: transparent; border-left: none; border-right: none; border-top: none;
+}
+.row:last-child { border-bottom: none; }
+button.row:hover { background: var(--bg-sunken); }
+.row-main { flex: 1; min-width: 0; }
+.row-label { font-size: 15px; font-weight: 550; display: flex; align-items: center; gap: 7px; }
+.row-label .icon { width: 17px; height: 17px; color: var(--text-faint); }
+.row-label[data-color] .icon { color: var(--sc); }
+.row-hint { font-size: 12.5px; color: var(--text-faint); margin-top: 1px; }
+.row-end { flex: none; display: flex; align-items: center; gap: 8px; color: var(--text-faint); }
+.row.danger .row-label { color: var(--danger); }
+.row.danger .row-label .icon { color: var(--danger); }
+.row-stack { display: block; }
+.row-stack .inline-form { margin-top: 8px; }
+
+.seg { display: flex; gap: 2px; background: var(--bg-sunken); padding: 3px; border-radius: 10px; flex: none; }
+.seg button {
+  padding: 5px 10px; border: none; background: transparent; border-radius: 8px;
+  font-size: 13px; font-weight: 650; color: var(--text-soft); white-space: nowrap;
+}
+.seg button.on { background: var(--bg-elev); color: var(--text); box-shadow: var(--shadow-sm); }
+
+.switch {
+  width: 44px; height: 26px; border-radius: 999px; background: var(--line-strong);
+  border: none; position: relative; transition: background 0.18s; flex: none; padding: 0;
+}
+.switch::after {
+  content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px;
+  border-radius: 999px; background: #fff; transition: transform 0.18s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+.switch.on { background: var(--accent); }
+.switch.on::after { transform: translateX(18px); }
+
+/* --- 12. Dalībnieki ------------------------------------------------------- */
+.avatar {
+  width: 32px; height: 32px; border-radius: 999px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: color-mix(in srgb, var(--accent) 85%, var(--text));
+  font-weight: 700; font-size: 13.5px; flex: none; text-transform: uppercase;
+}
+.avatar.pending { background: var(--bg-sunken); color: var(--text-faint); }
+
+.member {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 2px; border-bottom: 1px solid var(--line);
+}
+.member:last-child { border-bottom: none; }
+.member-main { min-width: 0; flex: 1; }
+.member-email {
+  font-size: 14.5px; font-weight: 550;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.member-role { font-size: 12.5px; color: var(--text-faint); }
+
+.badge {
+  font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+  background: var(--bg-sunken); color: var(--text-soft);
+  text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+}
+
+.inline-form { display: flex; gap: 8px; }
+.inline-form .input { flex: 1; }
+
+.menu-list { display: flex; flex-direction: column; gap: 2px; }
+.menu-item {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid transparent;
+  background: transparent; font-size: 15px; font-weight: 550;
+}
+.menu-item:hover { background: var(--bg-sunken); }
+.menu-item.on { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+.menu-item .icon { width: 18px; height: 18px; color: var(--text-faint); }
+.menu-item.on .icon { color: var(--accent); }
+.menu-item small { display: block; font-size: 12.5px; color: var(--text-faint); font-weight: 500; }
+.menu-item[disabled] { opacity: 0.5; pointer-events: none; }
+.menu-item > span { flex: 1; min-width: 0; }
+
+/* --- 13. Pieteikšanās ----------------------------------------------------- */
+.auth { min-height: 100%; display: grid; place-items: center; padding: 24px 16px calc(24px + env(safe-area-inset-bottom)); }
+.auth-card {
+  width: 100%; max-width: 390px; background: var(--bg-elev);
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md); padding: 24px 20px;
+  display: flex; flex-direction: column; gap: 13px;
+}
+.auth-logo {
+  width: 50px; height: 50px; border-radius: 15px; background: var(--accent);
+  color: var(--accent-text); display: grid; place-items: center; margin: 0 auto 2px;
+}
+.auth-logo .icon { width: 27px; height: 27px; }
+.auth-title { text-align: center; font-size: 21px; font-weight: 700; letter-spacing: -0.02em; }
+.auth-sub { text-align: center; font-size: 14px; color: var(--text-soft); margin-top: -8px; }
+.auth-switch { text-align: center; font-size: 14px; color: var(--text-soft); }
+.auth-switch button { border: none; background: none; color: var(--accent); font-weight: 650; padding: 0 2px; }
+
+.divider-or { display: flex; align-items: center; gap: 10px; color: var(--text-faint); font-size: 12.5px; font-weight: 600; }
+.divider-or::before, .divider-or::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+.center-note { text-align: center; padding: 60px 20px; color: var(--text-faint); }
+
+.demo-banner {
+  background: color-mix(in srgb, var(--warn) 15%, transparent);
+  color: color-mix(in srgb, var(--warn) 75%, var(--text));
+  border-bottom: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+  font-size: 12px; font-weight: 650; text-align: center; padding: 5px 12px;
+}
+
+/* --- 14. Ekrāna izmēri ---------------------------------------------------- */
+@media (max-width: 560px) {
+  /* Iestatījumos izvēles pogas pārceļas zem paskaidrojuma */
+  .row-seg { flex-wrap: wrap; row-gap: 9px; }
+  .row-seg .row-main { flex: 1 1 100%; }
+  .row-seg .seg { width: 100%; }
+  .row-seg .seg button { flex: 1; padding: 6px 4px; font-size: 12.5px; }
+}
+
+@media (min-width: 560px) {
+  .backdrop { align-items: center; padding: 20px; }
+  .modal { border-radius: var(--radius-lg); }
+  .modal-foot { padding-bottom: 14px; }
+}
+
+@media (min-width: 720px) {
+  :root { --header-h: 56px; }
+  .main, .page { padding-left: 20px; padding-right: 20px; }
+  .topbar-inner, .tabs-scroller { padding-left: 20px; padding-right: 20px; }
+  .quickadd { padding-left: 20px; padding-right: 20px; }
+  .section-title { font-size: 21px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
