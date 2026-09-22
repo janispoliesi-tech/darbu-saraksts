@@ -2,14 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import { getSupabase, isConfigured } from '@/lib/supabase';
+import { CONFIG_PROBLEM, getSupabase } from '@/lib/supabase';
 import { applyTheme, loadSettings } from '@/lib/settings';
 import AuthScreen from './AuthScreen';
 import AppShell from './AppShell';
+import ConfigError from './ConfigError';
+import NewPasswordScreen from './NewPasswordScreen';
 
 export default function AppRoot() {
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
+  const [fatal, setFatal] = useState<string | null>(null);
+  const [recovery, setRecovery] = useState(false);
 
   // Gaišais/tumšais režīms jāuzstāda arī pirms pieteikšanās
   useEffect(() => {
@@ -17,45 +21,69 @@ export default function AppRoot() {
   }, []);
 
   useEffect(() => {
-    if (!isConfigured) {
+    if (CONFIG_PROBLEM) {
       setReady(true);
       return;
     }
-    const supabase = getSupabase();
 
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+    let unsubscribe: (() => void) | undefined;
+
+    try {
+      const supabase = getSupabase();
+
+      supabase.auth
+        .getSession()
+        .then(({ data }) => {
+          setSession(data.session);
+          setReady(true);
+        })
+        .catch((err) => {
+          setFatal(msgOf(err));
+          setReady(true);
+        });
+
+      const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+        // Lietotājs atvēris paroles atjaunošanas saiti no e-pasta
+        if (event === 'PASSWORD_RECOVERY') setRecovery(true);
+        if (event === 'SIGNED_OUT') setRecovery(false);
+        setSession(s);
+      });
+      unsubscribe = () => sub.subscription.unsubscribe();
+    } catch (err) {
+      setFatal(msgOf(err));
       setReady(true);
-    });
+    }
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
-    });
-
-    return () => sub.subscription.unsubscribe();
+    return () => unsubscribe?.();
   }, []);
 
-  if (!isConfigured) {
+  if (CONFIG_PROBLEM) return <ConfigError problem={CONFIG_PROBLEM} />;
+
+  if (fatal) {
     return (
-      <div className="auth">
-        <div className="auth-card">
-          <div className="auth-title">Trūkst Supabase datu</div>
-          <div className="alert alert-error">
-            Nav norādīts <code>NEXT_PUBLIC_SUPABASE_URL</code> vai{' '}
-            <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>.
-          </div>
-          <p className="hint">
-            Uz sava datora izveido failu <b>.env.local</b> (paraugs ir <b>.env.example</b>). Uz Vercel
-            šos mainīgos pievieno sadaļā <b>Settings → Environment Variables</b> un pēc tam vēlreiz
-            izvieto projektu. Sīkāk — README.md.
-          </p>
-        </div>
-      </div>
+      <ConfigError
+        problem={{
+          title: 'Neizdevās izveidot savienojumu',
+          what: fatal,
+          fix:
+            'Pārbaudi, vai Vercel Environment Variables ievadītā Supabase adrese un atslēga ' +
+            'atbilst tavam projektam (Supabase → Project Settings → API), un vai pēc labošanas ' +
+            'ir veikts Redeploy.',
+        }}
+      />
     );
   }
 
   if (!ready) return <div className="center-note">Ielādē…</div>;
   if (!session) return <AuthScreen />;
+  if (recovery) return <NewPasswordScreen onDone={() => setRecovery(false)} />;
 
   return <AppShell session={session} />;
+}
+
+function msgOf(err: unknown): string {
+  if (err && typeof err === 'object' && 'message' in err) {
+    return String((err as { message: string }).message);
+  }
+  return String(err);
 }

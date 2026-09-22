@@ -54,6 +54,10 @@ Sākuma lapa  →  Saraksts  →  Sadaļa  →  Darbi
 - **Izpildītie darbi automātiski aizslīd saraksta apakšā un paliek nosvītroti.**
   Tos var atzīmēt atpakaļ, izdzēst pa vienam vai notīrīt visus uzreiz.
 - **Iestatījumu lapa** (zobrata ikona augšā pa labi) — skat. zemāk.
+- **Pieteikšanās ar e-pastu un paroli.** Reģistrējoties parole jāievada divreiz, un pie
+  katra paroles lauka ir actiņa, ar ko ierakstīto var apskatīt. Pieteikšanās ekrānā ir
+  saite „Aizmirsi paroli?“ — tā atsūta e-pastu, pēc kura atvēršanas aplikācija piedāvā
+  ievadīt jaunu paroli.
 - **Lietotāja vārds.** Katrs cilvēks norāda savu vārdu, un pārējie redz tieši to,
   nevis e-pastu.
 - **Kopīgošana pa sadaļām.** Pie sadaļas nosaukuma ir poga, kas rāda, vai tā ir
@@ -87,12 +91,19 @@ atšķirīgi. Vārds un saraksti ir piesaistīti kontam.
    > Šo failu var palaist arī atkārtoti — tas neko nedzēš un vienlaikus atjaunina
    > vecāku versiju.
 
-4. Atver **Project Settings (zobrats) → API** un saglabā divas vērtības:
-   - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
-   - **anon public** atslēga → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. Atver **Project Settings (zobrats) → API** un saglabā divas **dažādas** vērtības:
 
-   > `anon` atslēga ir publiska un droša izmantošanai pārlūkā — datus sargā
-   > datubāzes RLS politikas, kas jau ir shēmā. **`service_role` atslēgu neizmanto nekur.**
+   | Mainīgais | Ko tur likt | Kā izskatās |
+   |---|---|---|
+   | `NEXT_PUBLIC_SUPABASE_URL` | **Project URL** | `https://xxxxxxxxxxxx.supabase.co` |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **Publishable** vai **anon public** atslēga | `sb_publishable_…` vai `eyJhbGciOi…` |
+
+   > Tā ir **adrese** un **atslēga** — divas atšķirīgas lietas. Nesajauc tās vietām:
+   > adresei jāsākas ar `https://` un jābeidzas ar `.supabase.co`.
+   >
+   > Der gan jaunā „Publishable key“, gan vecākā „anon public“ atslēga (pēdējā atrodama
+   > sadaļā *Legacy API keys*). Abas ir publiskas un drošas pārlūkā — datus sargā
+   > datubāzes RLS politikas. **`service_role` un `secret` atslēgas neizmanto nekur.**
 
 5. **Authentication → Providers → Email** — pārliecinies, ka tas ir ieslēgts.
    - Ja gribi izmēģināt ātri, tur vari **izslēgt „Confirm email“** — tad reģistrācija
@@ -134,6 +145,10 @@ git push -u origin main
    | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJhbGciOi...` |
    | `NEXT_PUBLIC_ENABLE_GOOGLE` | `true` *(tikai ja ieslēdzi Google)* |
 
+   > ⚠️ **Nosaukumam obligāti jāsākas ar `NEXT_PUBLIC_`.** Next.js apzināti nenodod
+   > pārlūkam mainīgos bez šī priekšvārda — tā sargā slepenās atslēgas. Ja nosaukums būs
+   > `SUPABASE_URL`, aplikācija to neredzēs un rādīs „Nav ievadīti Supabase dati“.
+
 5. **Deploy**. Pēc minūtes saņemsi adresi, piem. `https://darbu-saraksts.vercel.app`.
 
 Turpmāk katrs `git push` uz `main` automātiski atjaunos vietni.
@@ -142,7 +157,7 @@ Turpmāk katrs `git push` uz `main` automātiski atjaunos vietni.
 
 ## 4. solis — pēdējie Supabase iestatījumi
 
-Lai e-pasta apstiprināšana un pieteikšanās saites vestu uz tavu vietni, nevis uz `localhost`:
+Lai e-pasta apstiprināšanas un paroles atjaunošanas saites vestu uz tavu vietni, nevis uz `localhost`:
 
 **Supabase → Authentication → URL Configuration**
 
@@ -216,6 +231,8 @@ darbu-saraksts/
 │   ├── components/
 │   │   ├── AppRoot.tsx        ← izvēlas: pieteikšanās vai aplikācija
 │   │   ├── AuthScreen.tsx     ← reģistrēšanās / pieteikšanās
+│   │   ├── PasswordInput.tsx  ← paroles lauks ar actiņu
+│   │   ├── NewPasswordScreen.tsx ← jaunas paroles ievade pēc atjaunošanas saites
 │   │   ├── AppShell.tsx       ← pārslēdz sākuma lapu / sarakstu / iestatījumus
 │   │   ├── HomePage.tsx       ← sākuma lapa ar visiem sarakstiem
 │   │   ├── BoardView.tsx      ← viens saraksts: cilnes, darbi, visa loģika
@@ -274,9 +291,21 @@ objekts `DEFAULT_SETTINGS`.
 
 ## Ja kaut kas nestrādā
 
+> **Svarīgākais par Vercel:** `NEXT_PUBLIC_…` vērtības tiek iebūvētas lapā **būvēšanas
+> brīdī**. Tāpēc pēc katras to pievienošanas vai labošanas obligāti jāveic
+> **Deployments → pēdējais izvietojums → ⋯ → Redeploy**. Bez tā lapa turpina strādāt
+> ar vecajām (vai tukšajām) vērtībām.
+
 | Problēma | Risinājums |
 |---|---|
-| „Trūkst Supabase datu“ | Nav `.env.local` (lokāli) vai Environment Variables (Vercel). Pēc pievienošanas Vercel jāveic **Redeploy**. |
+| Lapa paziņo, kas nav kārtībā ar Supabase datiem | Aplikācija pati pasaka konkrēto kļūdu un kā to salabot — izpildi, kas rakstīts, un veic Redeploy. |
+| „Application error: a client-side exception has occurred“ | Tā rāda vecākas versijas, kad savienojuma dati bija nepareizi. Atjauno projekta failus ar jaunāko versiju — tad lapas vietā parādās paskaidrojums latviski. |
+| „Nav ievadīti Supabase dati“, lai gan Vercel mainīgie ir pievienoti | Pārbaudi nosaukumus — tiem jāsākas ar `NEXT_PUBLIC_`. `SUPABASE_URL` nedarbosies, vajag `NEXT_PUBLIC_SUPABASE_URL`. |
+| Pievienoju mainīgos, bet nekas nemainās | Nav veikts **Redeploy** (skat. piezīmi augstāk). |
+| Vērtībā nejauši iekļuvis kas lieks | Adrese jāieraksta tikai kā `https://xxxx.supabase.co` — bez pēdiņām, bez mainīgā nosaukuma priekšā un bez `/dashboard/...` daļas. Atstarpes, pēdiņas un trūkstošo `https://` aplikācija salabo pati. |
+| Adrese un atslēga sajauktas vietām | URL mainīgajā jābūt `https://…supabase.co`, atslēgas mainīgajā — `sb_publishable_…` vai `eyJ…`. Aplikācija to pamana un pasaka. |
+| „Invalid path specified in request URL“ | Adresei ir kaut kas klāt aiz domēna (piem., `/rest/v1`). Jābūt tikai `https://xxxx.supabase.co`. Jaunākā versija lieko noņem pati. |
+| „Invalid API key“ | Atslēga nav no tā paša projekta, kura adrese norādīta, vai ir nokopēta nepilnīgi. |
 | Reģistrējos, bet nekas nenotiek | Ieslēgta e-pasta apstiprināšana — pārbaudi pastu (arī mēstules). Vai izslēdz to: Supabase → Authentication → Providers → Email → *Confirm email*. |
 | Apstiprinājuma saite ved uz `localhost` | Supabase → Authentication → **URL Configuration** → uzstādi Site URL uz Vercel adresi (4. solis). |
 | Kļūda par `relation does not exist` | Nav palaists `supabase/schema.sql`. Palaid to SQL Editor. |
