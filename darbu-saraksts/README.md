@@ -70,11 +70,27 @@ Sākuma lapa  →  Saraksts  →  Sadaļa  →  Darbi
 | Sadaļa | Ko var mainīt |
 |---|---|
 | **Profils** | Lietotāja vārds, e-pasts, iziešana no konta |
-| **Izskats** | Tēma (sistēmas / gaišs / tumšs), rindu blīvums, vai rādīt termiņus (nerādīt / tikai nokavētos / vienmēr), prioritātes krāsa, piezīmes, izpildīto sadaļa, skaitlis uz cilnēm, kārtošana |
+| **Izskats** | **Tēma** (sistēmas / gaišs / tumšs), **pamatkrāsa** (9 krāsas), **teksta izmērs** (mazs / vidējs / liels), rindu blīvums, vai rādīt termiņus (nerādīt / tikai nokavētos / vienmēr), prioritātes krāsa, piezīmes, izpildīto sadaļa, skaitlis uz cilnēm, kārtošana |
 | **Saraksts** | Nosaukums, visas sadaļas ar norādi „privāta“ vai „kopīgota“ — uzklikšķinot atveras dalībnieku pārvaldība; saraksta dzēšana vai pamešana |
 
-Izskata iestatījumi glabājas konkrētajā ierīcē, tāpēc telefonā un datorā tie var būt
-atšķirīgi. Vārds un saraksti ir piesaistīti kontam.
+### Katram savs izskats
+
+**Pamatkrāsa** nomaina visu izcelto elementu krāsu: pogas, ķeksīšus, slēdžus un
+pievienošanas pogu. Var izvēlēties no deviņām — tirkīza, zaļa, dzintara, oranža,
+sarkana, rozā, violeta, zila un grafīta. Tumšajam režīmam katrai ir sava, gaišāka
+versija, lai teksts uz tās paliek salasāms.
+
+**Teksta izmērs** palielina vai samazina darbu nosaukumus, piezīmes, sadaļu
+virsrakstus un cilnes (–8 % vai +13 %), neizjaucot izkārtojumu.
+
+Izskats glabājas **kontā**, nevis ierīcē — telefonā, planšetē un datorā tas izskatās
+vienādi, un pēc pieteikšanās jaunā ierīcē viss atgriežas pats. Katram lietotājam ir
+savs: kopīgotā sadaļā divi cilvēki var redzēt vienu un to pašu sarakstu pilnīgi
+dažādās krāsās. Izvēle darbojas uzreiz, bez lapas pārlādes.
+
+> Ja vēlies šo iespēju, **`supabase/schema.sql` jāpalaiž atkārtoti** — tas pievieno
+> profilam lauku, kurā izskats glabājas. Bez tā viss strādā, tikai izskats paliek
+> konkrētajā ierīcē.
 
 ---
 
@@ -249,7 +265,8 @@ darbu-saraksts/
 │   │   └── Icon.tsx
 │   └── lib/
 │       ├── icons.ts           ← ikonu komplekts un krāsas
-│       ├── settings.ts        ← lietotāja iestatījumi un tēma
+│       ├── settings.ts        ← lietotāja iestatījumi: tēma, pamatkrāsa, teksta izmērs
+│       ├── errors.ts          ← kļūdu paskaidrojumi latviski
 │       ├── format.ts          ← datumi, kārtošana, dalībnieku vārdi
 │       ├── auth.ts            ← droša iziešana no konta
 │       ├── supabase.ts        ← savienojums ar Supabase
@@ -281,6 +298,14 @@ rūtiņā) un ieraksti tās atslēgu kādā no `ICON_GROUPS` grupām.
 **Krāsas un izskats** — `src/app/globals.css`, mainīgo sadaļa `:root` (gaišajam režīmam)
 un `:root[data-theme='dark']` (tumšajam).
 
+**Pamatkrāsu komplekts** — `globals.css`, mainīgie `--ac-teal … --ac-slate` (abos
+režīmos atsevišķi) un saraksts `ACCENTS` failā `src/lib/settings.ts`. Lai pievienotu
+desmito krāsu, jāpapildina abas vietas un jāpieliek rindas
+`:root[data-accent='…']` un `[data-ac='…']`.
+
+**Teksta izmēra pakāpes** — `globals.css`, `:root[data-text='small']` un
+`:root[data-text='large']` (mainīgais `--fs`).
+
 **Prioritātes krāsas** — `globals.css`, mainīgie `--danger` (augsta), `--warn` (vidēja)
 un `--calm` (zema).
 
@@ -309,6 +334,8 @@ objekts `DEFAULT_SETTINGS`.
 | Reģistrējos, bet nekas nenotiek | Ieslēgta e-pasta apstiprināšana — pārbaudi pastu (arī mēstules). Vai izslēdz to: Supabase → Authentication → Providers → Email → *Confirm email*. |
 | Apstiprinājuma saite ved uz `localhost` | Supabase → Authentication → **URL Configuration** → uzstādi Site URL uz Vercel adresi (4. solis). |
 | Kļūda par `relation does not exist` | Nav palaists `supabase/schema.sql`. Palaid to SQL Editor. |
+| „Nav atļauts…“ vai neizdodas izveidot jaunu sadaļu | Datubāzē ir vecāka shēmas versija. Palaid `supabase/schema.sql` vēlreiz — tas atjaunina, neko nedzēšot. |
+| Izvēlētā krāsa vai teksta izmērs neseko uz citu ierīci | Tas pats: `supabase/schema.sql` jāpalaiž atkārtoti, lai profilam pievienotos lauks `settings`. |
 | Uzaicinātais neredz sadaļu | Viņam jāreģistrējas **ar tieši to pašu e-pasta adresi**, uz kuru sūtīts uzaicinājums. Pēc pieteikšanās saraksts parādās viņa sākuma lapā zem „Kopīgots ar mani“. |
 | Uzaicinātais neredz visas sadaļas | Tā arī paredzēts — viņš redz tikai tās, uz kurām ir uzaicināts. Katru sadaļu jākopīgo atsevišķi. |
 | Izmaiņas neparādās otram lietotājam | Pārlādē lapu. Realtime tiek pieslēgts automātiski `schema.sql` beigās. |

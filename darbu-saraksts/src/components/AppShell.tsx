@@ -1,10 +1,17 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { getSupabase } from '@/lib/supabase';
 import type { Board } from '@/lib/types';
-import { applyTheme, loadSettings, saveSettings, type Settings } from '@/lib/settings';
+import {
+  applyAppearance,
+  loadSettings,
+  normalizeSettings,
+  saveSettings,
+  type Settings,
+} from '@/lib/settings';
+import { errorText } from '@/lib/errors';
 import HomePage from './HomePage';
 import BoardView from './BoardView';
 import SettingsPage from './SettingsPage';
@@ -26,12 +33,25 @@ export default function AppShell({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Iestatījumus glabā gan ierīcē (ātrai ielādei), gan kontā (lai seko citās ierīcēs)
+  const pushTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   function setSettings(next: Settings) {
     setSettingsState(next);
     saveSettings(next);
-    applyTheme(next.theme);
+    applyAppearance(next);
+
+    if (pushTimer.current) clearTimeout(pushTimer.current);
+    pushTimer.current = setTimeout(() => {
+      // Ja saglabāšana kontā neizdodas, iestatījumi tāpat paliek šajā ierīcē
+      supabase.from('profiles').update({ settings: next }).eq('id', userId).then(() => {});
+    }, 700);
   }
-  useEffect(() => { applyTheme(settings.theme); }, [settings.theme]);
+
+  useEffect(() => {
+    applyAppearance(settings);
+    return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
+  }, [settings]);
 
   const loadBoards = useCallback(async () => {
     const { data, error } = await supabase
@@ -53,13 +73,22 @@ export default function AppShell({ session }: { session: Session }) {
 
         const [list, profile] = await Promise.all([
           loadBoards(),
-          supabase.from('profiles').select('display_name').eq('id', userId).maybeSingle(),
+          supabase.from('profiles').select('display_name,settings').eq('id', userId).maybeSingle(),
         ]);
         if (cancelled) return;
         setBoards(list);
         setDisplayName(profile.data?.display_name ?? userEmail.split('@')[0] ?? '');
+
+        // Kontā saglabātais izskats pārņem vadību, lai jaunā ierīcē viss izskatās tāpat
+        const remote = profile.data?.settings;
+        if (remote && typeof remote === 'object') {
+          const merged = normalizeSettings({ ...loadSettings(), ...remote });
+          setSettingsState(merged);
+          saveSettings(merged);
+          applyAppearance(merged);
+        }
       } catch (err) {
-        if (!cancelled) setError(msgOf(err));
+        if (!cancelled) setError(errorText(err));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -78,7 +107,7 @@ export default function AppShell({ session }: { session: Session }) {
           setView('home');
         }
       } catch (err) {
-        setError(msgOf(err));
+        setError(errorText(err));
       }
     },
     [loadBoards, boardId]
@@ -150,7 +179,3 @@ export default function AppShell({ session }: { session: Session }) {
   );
 }
 
-function msgOf(err: unknown): string {
-  if (err && typeof err === 'object' && 'message' in err) return String((err as { message: string }).message);
-  return String(err);
-}

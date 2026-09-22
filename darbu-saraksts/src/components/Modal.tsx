@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import Icon from './Icon';
 
 type Props = {
@@ -10,12 +10,16 @@ type Props = {
   children: React.ReactNode;
   footer?: React.ReactNode;
   color?: string;
+  /**
+   * True, ja logā kaut kas ir ierakstīts vai mainīts.
+   * Tad nejaušs pieskāriens blakus logam to NEAIZVER, lai ierakstītais nepazustu.
+   */
+  dirty?: boolean;
 };
 
-export default function Modal({ title, icon, onClose, children, footer, color }: Props) {
-  const boxRef = useRef<HTMLDivElement>(null);
-
+export default function Modal({ title, icon, onClose, children, footer, color, dirty }: Props) {
   useEffect(() => {
+    // Escape ir apzināts nospiediens, tāpēc tas aizver vienmēr
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
@@ -32,10 +36,11 @@ export default function Modal({ title, icon, onClose, children, footer, color }:
     <div
       className="backdrop"
       onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        // Aizver tikai tad, ja nekas nav ierakstīts — citādi teksts pazustu
+        if (e.target === e.currentTarget && !dirty) onClose();
       }}
     >
-      <div className="modal" ref={boxRef} role="dialog" aria-modal="true" aria-label={title} data-color={color}>
+      <div className="modal" role="dialog" aria-modal="true" aria-label={title} data-color={color}>
         <div className="modal-head">
           {icon ? <Icon name={icon} /> : null}
           <span>{title}</span>

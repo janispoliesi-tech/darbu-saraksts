@@ -19,12 +19,16 @@ create extension if not exists pgcrypto;
 -- 1. TABULAS
 -- ----------------------------------------------------------------------------
 
--- Lietotāja profils: redzamais vārds, lai dalībniekus var atpazīt.
+-- Lietotāja profils: redzamais vārds un izskata iestatījumi.
 create table if not exists public.profiles (
   id           uuid primary key references auth.users (id) on delete cascade,
   display_name text,
+  settings     jsonb,
   created_at   timestamptz not null default now()
 );
+
+-- Vecākas versijas atjaunināšana
+alter table public.profiles add column if not exists settings jsonb;
 
 -- Saraksts. Tam ir viens īpašnieks; pārējie piekļūst atsevišķām sadaļām.
 create table if not exists public.boards (

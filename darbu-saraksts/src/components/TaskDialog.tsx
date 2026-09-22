@@ -31,10 +31,20 @@ export default function TaskDialog({ initial, isNew, sections, onClose, onSave, 
 
   const valid = title.trim().length > 0;
 
+  // Ja kaut kas ir ierakstīts vai mainīts, nejaušs pieskāriens blakus logam to neaizver
+  const dirty =
+    (isNew && (title.trim().length > 0 || note.trim().length > 0 || due !== '')) ||
+    title !== initial.title ||
+    note !== initial.note ||
+    due !== initial.due ||
+    priority !== initial.priority ||
+    sectionId !== initial.sectionId;
+
   return (
     <Modal
       title={isNew ? 'Jauns darbs' : 'Rediģēt darbu'}
       icon={isNew ? 'plus' : 'pencil'}
+      dirty={dirty}
       onClose={onClose}
       footer={
         <>

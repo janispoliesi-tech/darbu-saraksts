@@ -20,11 +20,18 @@ export default function SectionDialog({ section, onClose, onSave, onDelete }: Pr
 
   const valid = name.trim().length > 0;
 
+  // Ja kaut kas ir ierakstīts vai mainīts, nejaušs pieskāriens blakus logam to neaizver
+  const dirty =
+    name !== (section?.name ?? '') ||
+    icon !== (section?.icon ?? 'list') ||
+    color !== (section?.color ?? 'teal');
+
   return (
     <Modal
       title={section ? 'Rediģēt sadaļu' : 'Jauna sadaļa'}
       icon={icon}
       color={color}
+      dirty={dirty}
       onClose={onClose}
       footer={
         <>

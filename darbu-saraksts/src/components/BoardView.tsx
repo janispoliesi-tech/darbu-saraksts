@@ -5,6 +5,7 @@ import { getSupabase } from '@/lib/supabase';
 import type { Board, Priority, Section, SectionMember, Task } from '@/lib/types';
 import type { Settings } from '@/lib/settings';
 import { sortSections, sortTasks } from '@/lib/format';
+import { errorText } from '@/lib/errors';
 import Icon from './Icon';
 import SectionTabs from './SectionTabs';
 import QuickAdd from './QuickAdd';
@@ -45,14 +46,17 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
   const refresh = useCallback(async () => {
     const my = ++reqId.current;
     try {
-      const [{ data: secs, error: e1 }, { data: tsk, error: e2 }, { data: mem }] = await Promise.all([
-        supabase.from('sections').select('*').eq('board_id', board.id).order('position'),
-        supabase.from('tasks').select('*').eq('board_id', board.id),
-        supabase.from('section_members').select('*'),
-      ]);
+      const [{ data: secs, error: e1 }, { data: tsk, error: e2 }, { data: mem, error: e3 }] =
+        await Promise.all([
+          supabase.from('sections').select('*').eq('board_id', board.id).order('position'),
+          supabase.from('tasks').select('*').eq('board_id', board.id),
+          supabase.from('section_members').select('*'),
+        ]);
       if (my !== reqId.current) return;
       if (e1) throw e1;
       if (e2) throw e2;
+      // Ja šī tabula neeksistē, datubāzē nav palaista jaunākā shēma — jāpasaka uzreiz
+      if (e3) throw e3;
 
       const list = sortSections((secs ?? []) as Section[]);
       setSections(list);
@@ -61,7 +65,7 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
       setActiveId((cur) => (cur && list.some((s) => s.id === cur) ? cur : list[0]?.id ?? null));
       setError(null);
     } catch (err) {
-      if (my === reqId.current) setError(msgOf(err));
+      if (my === reqId.current) setError(errorText(err));
     } finally {
       if (my === reqId.current) setLoading(false);
     }
@@ -131,7 +135,7 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
 
     if (error) {
       setTasks((prev) => prev.filter((t) => t.id !== tmpId));
-      setError(msgOf(error));
+      setError(errorText(error));
       return;
     }
     setTasks((prev) => prev.map((t) => (t.id === tmpId ? (data as Task) : t)));
@@ -141,19 +145,19 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
     const next = !task.is_done;
     setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, is_done: next, done_at: next ? new Date().toISOString() : null } : t)));
     const { error } = await supabase.from('tasks').update({ is_done: next }).eq('id', task.id);
-    if (error) { setError(msgOf(error)); refresh(); }
+    if (error) { setError(errorText(error)); refresh(); }
   }
 
   async function saveTask(task: Task, patch: Partial<Task>) {
     setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, ...patch } : t)));
     const { error } = await supabase.from('tasks').update(patch).eq('id', task.id);
-    if (error) { setError(msgOf(error)); refresh(); }
+    if (error) { setError(errorText(error)); refresh(); }
   }
 
   async function deleteTask(task: Task) {
     setTasks((prev) => prev.filter((t) => t.id !== task.id));
     const { error } = await supabase.from('tasks').delete().eq('id', task.id);
-    if (error) { setError(msgOf(error)); refresh(); }
+    if (error) { setError(errorText(error)); refresh(); }
   }
 
   async function clearDone() {
@@ -163,14 +167,14 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
     if (!confirm(`Dzēst ${ids.length} izpildīto darbu?`)) return;
     setTasks((prev) => prev.filter((t) => !ids.includes(t.id)));
     const { error } = await supabase.from('tasks').delete().in('id', ids);
-    if (error) { setError(msgOf(error)); refresh(); }
+    if (error) { setError(errorText(error)); refresh(); }
   }
 
   /* ---------- Sadaļas ---------- */
   async function saveSection(values: { name: string; icon: string; color: string }, existing: Section | null) {
     if (existing) {
       const { error } = await supabase.from('sections').update(values).eq('id', existing.id);
-      if (error) { setError(msgOf(error)); return; }
+      if (error) { setError(errorText(error)); return; }
       setSections((prev) => prev.map((s) => (s.id === existing.id ? { ...s, ...values } : s)));
     } else {
       const pos = Math.max(-1, ...sections.map((s) => s.position)) + 1;
@@ -179,7 +183,7 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
         .insert({ ...values, board_id: board.id, position: pos })
         .select()
         .single();
-      if (error) { setError(msgOf(error)); return; }
+      if (error) { setError(errorText(error)); return; }
       const created = data as Section;
       setSections((prev) => sortSections([...prev, created]));
       setActiveId(created.id);
@@ -194,7 +198,7 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
       : `Dzēst sadaļu “${section.name}”?`;
     if (!confirm(warn)) return;
     const { error } = await supabase.from('sections').delete().eq('id', section.id);
-    if (error) { setError(msgOf(error)); return; }
+    if (error) { setError(errorText(error)); return; }
     setSections((prev) => prev.filter((s) => s.id !== section.id));
     setTasks((prev) => prev.filter((t) => t.section_id !== section.id));
     setActiveId((cur) => (cur === section.id ? sections.find((s) => s.id !== section.id)?.id ?? null : cur));
@@ -370,7 +374,3 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
   );
 }
 
-function msgOf(err: unknown): string {
-  if (err && typeof err === 'object' && 'message' in err) return String((err as { message: string }).message);
-  return String(err);
-}

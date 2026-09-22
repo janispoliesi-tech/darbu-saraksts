@@ -4,8 +4,16 @@ import { useCallback, useEffect, useState } from 'react';
 import { getSupabase } from '@/lib/supabase';
 import { signOut } from '@/lib/auth';
 import type { Board, Section, SectionMember, SortMode } from '@/lib/types';
-import type { Density, DueMode, Settings, ThemeMode } from '@/lib/settings';
+import {
+  ACCENTS,
+  type Density,
+  type DueMode,
+  type Settings,
+  type TextSize,
+  type ThemeMode,
+} from '@/lib/settings';
 import { plural } from '@/lib/format';
+import { errorText } from '@/lib/errors';
 import Icon from './Icon';
 import ShareDialog from './ShareDialog';
 
@@ -63,7 +71,7 @@ export default function SettingsPage(props: Props) {
     setBusy(true);
     const { data, error } = await supabase.rpc('set_display_name', { p_name: v });
     setBusy(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     props.onDisplayName(typeof data === 'string' ? data : v);
     await props.onBoardsChanged();
     await loadSections();
@@ -75,7 +83,7 @@ export default function SettingsPage(props: Props) {
     setBusy(true);
     const { error } = await supabase.from('boards').update({ name: boardName.trim() }).eq('id', board.id);
     setBusy(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     await props.onBoardsChanged();
     flash('Saraksta nosaukums saglabāts.');
   }
@@ -86,7 +94,7 @@ export default function SettingsPage(props: Props) {
     setBusy(true);
     const { error } = await supabase.from('boards').delete().eq('id', board.id);
     setBusy(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     await props.onBoardsChanged();
     onHome();
   }
@@ -102,7 +110,7 @@ export default function SettingsPage(props: Props) {
       .eq('user_id', userId)
       .in('section_id', ids);
     setBusy(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     await props.onBoardsChanged();
     onHome();
   }
@@ -176,6 +184,32 @@ export default function SettingsPage(props: Props) {
             value={settings.theme}
             options={[['system', 'Sistēmas'], ['light', 'Gaišs'], ['dark', 'Tumšs']]}
             onChange={(v) => set({ theme: v as ThemeMode })} />
+
+          <div className="row row-stack">
+            <div className="row-label"><Icon name="brush" />Pamatkrāsa</div>
+            <div className="row-hint">Pogas, ķeksīši un izceltie elementi</div>
+            <div className="color-row" style={{ marginTop: 9 }}>
+              {ACCENTS.map((a) => (
+                <button
+                  key={a.key}
+                  type="button"
+                  className={`color-dot${a.key === settings.accent ? ' on' : ''}`}
+                  data-ac={a.key}
+                  onClick={() => set({ accent: a.key })}
+                  title={a.label}
+                  aria-label={a.label}
+                  aria-pressed={a.key === settings.accent}
+                >
+                  <i />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <SegRow icon="text" label="Teksta izmērs" hint="Darbu un sadaļu nosaukumu lielums"
+            value={settings.textSize}
+            options={[['small', 'Mazs'], ['normal', 'Vidējs'], ['large', 'Liels']]}
+            onChange={(v) => set({ textSize: v as TextSize })} />
 
           <SegRow icon="list" label="Rindu blīvums" hint="Cik daudz vietas aizņem viens darbs"
             value={settings.density}
@@ -277,7 +311,7 @@ export default function SettingsPage(props: Props) {
         </div>
 
         <p className="hint" style={{ marginTop: 14, textAlign: 'center' }}>
-          Izskata iestatījumi tiek saglabāti šajā ierīcē. Vārds un saraksti — tavā kontā.
+          Izskats tiek saglabāts tavā kontā — tāds pats telefonā, planšetē un datorā.
         </p>
       </main>
 

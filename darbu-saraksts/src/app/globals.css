@@ -15,8 +15,23 @@
   --text-soft: #5d6b7c;
   --text-faint: #8b97a6;
 
-  --accent: #0d9488;
-  --accent-text: #ffffff;
+  /* Pamatkrāsas, ko lietotājs izvēlas iestatījumos */
+  --ac-teal: #0d8a7e;
+  --ac-green: #3d8a2e;
+  --ac-amber: #a0711a;
+  --ac-orange: #c1561b;
+  --ac-red: #c5333b;
+  --ac-pink: #b5386f;
+  --ac-violet: #6b48c0;
+  --ac-blue: #2263c6;
+  --ac-slate: #526176;
+  --accent-on: #ffffff;
+
+  --accent: var(--ac-teal);
+  --accent-text: var(--accent-on);
+
+  /* Teksta izmēra reizinātājs */
+  --fs: 1;
 
   --danger: #d8434b;
   --warn: #dd8a09;
@@ -57,8 +72,16 @@
     --text: #e8edf3;
     --text-soft: #9daabb;
     --text-faint: #71808f;
-    --accent: #2dd4bf;
-    --accent-text: #06281f;
+    --ac-teal: #2dd4bf;
+    --ac-green: #6fd043;
+    --ac-amber: #e8b44a;
+    --ac-orange: #f5904f;
+    --ac-red: #ff7a80;
+    --ac-pink: #f277b4;
+    --ac-violet: #a68cf5;
+    --ac-blue: #64a6ff;
+    --ac-slate: #9aa9ba;
+    --accent-on: #0b1116;
     --danger: #ff6b6b;
     --warn: #eaa33a;
     --calm: #64748b;
@@ -87,8 +110,16 @@
   --text: #e8edf3;
   --text-soft: #9daabb;
   --text-faint: #71808f;
-  --accent: #2dd4bf;
-  --accent-text: #06281f;
+  --ac-teal: #2dd4bf;
+  --ac-green: #6fd043;
+  --ac-amber: #e8b44a;
+  --ac-orange: #f5904f;
+  --ac-red: #ff7a80;
+  --ac-pink: #f277b4;
+  --ac-violet: #a68cf5;
+  --ac-blue: #64a6ff;
+  --ac-slate: #9aa9ba;
+  --accent-on: #0b1116;
   --danger: #ff6b6b;
   --warn: #eaa33a;
   --calm: #64748b;
@@ -105,6 +136,32 @@
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 20px 52px rgba(0, 0, 0, 0.6);
 }
+
+/* Lietotāja izvēlētā pamatkrāsa (data-accent uz <html>) */
+:root[data-accent='teal']   { --accent: var(--ac-teal); }
+:root[data-accent='green']  { --accent: var(--ac-green); }
+:root[data-accent='amber']  { --accent: var(--ac-amber); }
+:root[data-accent='orange'] { --accent: var(--ac-orange); }
+:root[data-accent='red']    { --accent: var(--ac-red); }
+:root[data-accent='pink']   { --accent: var(--ac-pink); }
+:root[data-accent='violet'] { --accent: var(--ac-violet); }
+:root[data-accent='blue']   { --accent: var(--ac-blue); }
+:root[data-accent='slate']  { --accent: var(--ac-slate); }
+
+/* Tie paši toņi krāsu izvēles punktiņiem iestatījumos */
+[data-ac='teal']   { --sc: var(--ac-teal); }
+[data-ac='green']  { --sc: var(--ac-green); }
+[data-ac='amber']  { --sc: var(--ac-amber); }
+[data-ac='orange'] { --sc: var(--ac-orange); }
+[data-ac='red']    { --sc: var(--ac-red); }
+[data-ac='pink']   { --sc: var(--ac-pink); }
+[data-ac='violet'] { --sc: var(--ac-violet); }
+[data-ac='blue']   { --sc: var(--ac-blue); }
+[data-ac='slate']  { --sc: var(--ac-slate); }
+
+/* Teksta izmērs */
+:root[data-text='small'] { --fs: 0.92; }
+:root[data-text='large'] { --fs: 1.13; }
 
 /* Sadaļu krāsas — piešķir ar data-color="teal" utt. */
 [data-color='teal']   { --sc: var(--sc-teal); }
@@ -202,7 +259,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   display: inline-flex; align-items: center; gap: 7px; flex: none;
   scroll-snap-align: start; padding: 7px 12px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--bg-elev);
-  color: var(--text-soft); font-weight: 600; font-size: 14px; white-space: nowrap;
+  color: var(--text-soft); font-weight: 600; font-size: calc(14px * var(--fs)); white-space: nowrap;
   transition: background 0.16s, color 0.16s, border-color 0.16s, transform 0.12s;
 }
 .tab:active { transform: scale(0.97); }
@@ -246,7 +303,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .section-title {
   display: flex; align-items: center; gap: 9px; min-width: 0;
-  font-size: 19px; font-weight: 700; letter-spacing: -0.02em;
+  font-size: calc(19px * var(--fs)); font-weight: 700; letter-spacing: -0.02em;
 }
 .section-title .icon { width: 20px; height: 20px; color: var(--sc); }
 .section-title span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -295,9 +352,9 @@ ul { list-style: none; margin: 0; padding: 0; }
   border: none; background: transparent; padding: 2px 0; text-align: left;
 }
 .task-text { flex: 1; min-width: 0; }
-.task-title { font-size: 15px; font-weight: 500; word-break: break-word; display: block; }
+.task-title { font-size: calc(15px * var(--fs)); font-weight: 500; word-break: break-word; display: block; }
 .task-note {
-  font-size: 12.5px; color: var(--text-soft); margin-top: 1px;
+  font-size: calc(12.5px * var(--fs)); color: var(--text-soft); margin-top: 1px;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
@@ -309,7 +366,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .mini {
   display: inline-flex; align-items: center; gap: 4px;
-  font-size: 11.5px; font-weight: 650; color: var(--text-faint);
+  font-size: calc(11.5px * var(--fs)); font-weight: 650; color: var(--text-faint);
   background: var(--bg-sunken); border-radius: 999px; padding: 2px 7px;
   white-space: nowrap;
 }
@@ -394,7 +451,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .quickadd-inner:focus-within { border-color: var(--accent); }
 .qa-input {
   flex: 1; min-width: 0; border: none; background: transparent;
-  padding: 8px 0; font-size: 15.5px;
+  padding: 8px 0; font-size: calc(15.5px * var(--fs));
 }
 .qa-input:focus { outline: none; }
 .qa-input::placeholder { color: var(--text-faint); }
@@ -553,7 +610,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .board-card-main { flex: 1; min-width: 0; }
 .board-card-name {
-  display: block; font-size: 16px; font-weight: 650; letter-spacing: -0.01em;
+  display: block; font-size: calc(16px * var(--fs)); font-weight: 650; letter-spacing: -0.01em;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .board-card-meta { display: block; font-size: 12.5px; color: var(--text-faint); margin-top: 1px; }

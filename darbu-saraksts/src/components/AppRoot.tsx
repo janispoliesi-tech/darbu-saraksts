@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { CONFIG_PROBLEM, getSupabase } from '@/lib/supabase';
-import { applyTheme, loadSettings } from '@/lib/settings';
+import { applyAppearance, loadSettings } from '@/lib/settings';
 import AuthScreen from './AuthScreen';
 import AppShell from './AppShell';
 import ConfigError from './ConfigError';
@@ -15,9 +15,9 @@ export default function AppRoot() {
   const [fatal, setFatal] = useState<string | null>(null);
   const [recovery, setRecovery] = useState(false);
 
-  // Gaišais/tumšais režīms jāuzstāda arī pirms pieteikšanās
+  // Izskats jāuzstāda arī pirms pieteikšanās
   useEffect(() => {
-    applyTheme(loadSettings().theme);
+    applyAppearance(loadSettings());
   }, []);
 
   useEffect(() => {

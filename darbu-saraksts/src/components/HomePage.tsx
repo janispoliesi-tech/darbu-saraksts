@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getSupabase } from '@/lib/supabase';
 import type { Board, Section, Task } from '@/lib/types';
 import { plural } from '@/lib/format';
+import { errorText } from '@/lib/errors';
 import Icon from './Icon';
 
 type Props = {
@@ -48,7 +49,7 @@ export default function HomePage({ boards, userId, displayName, onOpen, onSettin
     setBusy(true);
     const { data, error } = await supabase.rpc('create_board', { p_name: title.trim() });
     setBusy(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     await onBoardsChanged();
     if (typeof data === 'string') onOpen(data);
   }

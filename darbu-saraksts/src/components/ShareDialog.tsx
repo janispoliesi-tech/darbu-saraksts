@@ -5,6 +5,7 @@ import { getSupabase } from '@/lib/supabase';
 import type { Section, SectionInvitation, SectionMember } from '@/lib/types';
 import { initialsOf, memberLabel } from '@/lib/format';
 import Modal from './Modal';
+import { errorText } from '@/lib/errors';
 import Icon from './Icon';
 
 type Props = {
@@ -45,7 +46,7 @@ export default function ShareDialog({ section, isOwner, userId, onClose, onChang
     setOk(null);
     const { data, error } = await supabase.rpc('invite_to_section', { p_section: section.id, p_email: v });
     setBusy(false);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     setEmail('');
     await load();
     onChanged();
@@ -69,7 +70,7 @@ export default function ShareDialog({ section, isOwner, userId, onClose, onChang
       .delete()
       .eq('section_id', section.id)
       .eq('user_id', m.user_id);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     await load();
     onChanged();
     if (self) onClose();
@@ -77,7 +78,7 @@ export default function ShareDialog({ section, isOwner, userId, onClose, onChang
 
   async function cancelInvite(inv: SectionInvitation) {
     const { error } = await supabase.from('section_invitations').delete().eq('id', inv.id);
-    if (error) { setError(error.message); return; }
+    if (error) { setError(errorText(error)); return; }
     await load();
   }
 
@@ -88,6 +89,7 @@ export default function ShareDialog({ section, isOwner, userId, onClose, onChang
       title={`Sadaļa “${section.name}”`}
       icon={section.icon}
       color={section.color}
+      dirty={email.trim().length > 0}
       onClose={onClose}
       footer={<button className="btn btn-primary" onClick={onClose}>Aizvērt</button>}
     >
