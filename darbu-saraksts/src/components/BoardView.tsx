@@ -40,7 +40,6 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
   const [taskDialog, setTaskDialog] = useState<TaskDialogState | null>(null);
   const [shareFor, setShareFor] = useState<Section | null>(null);
 
-  /* ---------- Ielāde ---------- */
   const reqId = useRef(0);
 
   const refresh = useCallback(async () => {
@@ -55,7 +54,6 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
       if (my !== reqId.current) return;
       if (e1) throw e1;
       if (e2) throw e2;
-      // Ja šī tabula neeksistē, datubāzē nav palaista jaunākā shēma — jāpasaka uzreiz
       if (e3) throw e3;
 
       const list = sortSections((secs ?? []) as Section[]);
@@ -79,7 +77,6 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
     refresh();
   }, [refresh]);
 
-  /* ---------- Realtime ---------- */
   useEffect(() => {
     const channel = supabase
       .channel(`board-${board.id}`)
@@ -89,7 +86,6 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
     return () => { supabase.removeChannel(channel); };
   }, [supabase, board.id, refresh]);
 
-  /* ---------- Atvasinātie dati ---------- */
   const activeSection = useMemo(() => sections.find((s) => s.id === activeId) ?? null, [sections, activeId]);
 
   const sectionTasks = useMemo(
@@ -109,7 +105,6 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
     return map;
   }, [members]);
 
-  /* ---------- Darbi ---------- */
   async function createTask(v: TaskDraft) {
     const sectionId = v.sectionId || activeId;
     if (!sectionId) return;
@@ -155,9 +150,11 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
   }
 
   async function deleteTask(task: Task) {
+    if (settings.confirmDelete && !confirm(`Dzēst darbu “${task.title}”?`)) return false;
     setTasks((prev) => prev.filter((t) => t.id !== task.id));
     const { error } = await supabase.from('tasks').delete().eq('id', task.id);
     if (error) { setError(errorText(error)); refresh(); }
+    return true;
   }
 
   async function clearDone() {
@@ -170,7 +167,6 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
     if (error) { setError(errorText(error)); refresh(); }
   }
 
-  /* ---------- Sadaļas ---------- */
   async function saveSection(values: { name: string; icon: string; color: string }, existing: Section | null) {
     if (existing) {
       const { error } = await supabase.from('sections').update(values).eq('id', existing.id);
@@ -205,15 +201,13 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
     setSectionDialog(null);
   }
 
-  /* ---------- Attēlojums ---------- */
   const shared = activeSection ? (shareCount[activeSection.id] ?? 0) : 0;
 
   return (
     <div
       className="app"
       data-color={activeSection?.color ?? 'teal'}
-      data-density={settings.density}
-      data-prio={settings.priorityColor ? 'on' : 'off'}
+      data-sec-accent={settings.sectionAccent ? 'on' : undefined}
     >
       <header className="topbar">
         <div className="topbar-inner">
@@ -319,11 +313,13 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
 
       <QuickAdd
         disabled={!activeSection}
-        onAdd={(title) => createTask({ title, note: '', due: '', priority: 2, sectionId: activeId ?? '' })}
+        onAdd={(title) =>
+          createTask({ title, note: '', due: '', priority: settings.defaultPriority, sectionId: activeId ?? '' })
+        }
         onOpenFull={(title) =>
           setTaskDialog({
             isNew: true, task: null,
-            draft: { title, note: '', due: '', priority: 2, sectionId: activeId ?? '' },
+            draft: { title, note: '', due: '', priority: settings.defaultPriority, sectionId: activeId ?? '' },
           })
         }
       />
@@ -357,13 +353,19 @@ export default function BoardView({ board, settings, userId, onBack, onSettings 
             }
             setTaskDialog(null);
           }}
-          onDelete={taskDialog.task ? () => { deleteTask(taskDialog.task as Task); setTaskDialog(null); } : undefined}
+          onDelete={
+            taskDialog.task
+              ? async () => { if (await deleteTask(taskDialog.task as Task)) setTaskDialog(null); }
+              : undefined
+          }
         />
       ) : null}
 
       {shareFor ? (
         <ShareDialog
+          key={shareFor.id}
           section={shareFor}
+          sections={sections}
           isOwner={isOwner}
           userId={userId}
           onClose={() => setShareFor(null)}

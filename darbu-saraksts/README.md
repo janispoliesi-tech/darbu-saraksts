@@ -41,10 +41,11 @@ Sākuma lapa  →  Saraksts  →  Sadaļa  →  Darbi
 ## Ko aplikācija prot
 
 - **Sākuma lapa** ar visiem sarakstiem — tur arī pārslēdzas starp tiem un veido jaunus.
-- **Kompakts saraksts.** Rindā redzams tikai darba nosaukums — datums un prioritātes
-  uzraksts ir paslēpti. **Prioritāte redzama ar krāsainu svītru rindas malā:**
-  sarkans = augsta, dzeltens = vidēja, pelēks = zema. Katrā rindā ir zīmuļa
-  (rediģēt) un miskastes (dzēst) poga.
+- **Kompakts saraksts.** Rindā redzams tikai darba nosaukums (treknrakstā) — datums un
+  prioritātes uzraksts ir paslēpti. **Prioritāte redzama ar krāsainu svītru rindas malā:**
+  sarkans = augsta, dzeltens = vidēja, pelēks = zema (iestatījumos to var nomainīt uz
+  punktu, fonu vai ķeksīša krāsu). Katrā rindā ir zīmuļa (rediģēt) un miskastes (dzēst)
+  poga.
 - **Jauna darba pievienošana ir ekrāna apakšā** — šaura josla ar vienu lauku.
   Ieraksti un nospied Enter. Poga ar trim punktiem atver logu ar piezīmi,
   termiņu, prioritāti un sadaļu.
@@ -61,8 +62,9 @@ Sākuma lapa  →  Saraksts  →  Sadaļa  →  Darbi
 - **Lietotāja vārds.** Katrs cilvēks norāda savu vārdu, un pārējie redz tieši to,
   nevis e-pastu.
 - **Kopīgošana pa sadaļām.** Pie sadaļas nosaukuma ir poga, kas rāda, vai tā ir
-  privāta vai kopīgota. Īpašnieks tur uzaicina cilvēkus pēc e-pasta, redz visus
-  dalībniekus un **var tos izņemt**. Uzaicinātais var pats pamest sadaļu.
+  privāta vai kopīgota. Īpašnieks tur uzaicina cilvēkus pēc e-pasta — **uzreiz uz
+  vienu vai vairākām sadaļām** —, redz visus dalībniekus un **var tos izņemt**.
+  Uzaicinātais var pats pamest sadaļu.
 - **Izmaiņas parādās uzreiz** visiem, kas atvēruši to pašu sadaļu (Supabase Realtime).
 
 ### Iestatījumu lapa
@@ -70,18 +72,33 @@ Sākuma lapa  →  Saraksts  →  Sadaļa  →  Darbi
 | Sadaļa | Ko var mainīt |
 |---|---|
 | **Profils** | Lietotāja vārds, e-pasts, iziešana no konta |
-| **Izskats** | **Tēma** (sistēmas / gaišs / tumšs), **pamatkrāsa** (9 krāsas), **teksta izmērs** (mazs / vidējs / liels), rindu blīvums, vai rādīt termiņus (nerādīt / tikai nokavētos / vienmēr), prioritātes krāsa, piezīmes, izpildīto sadaļa, skaitlis uz cilnēm, kārtošana |
+| **Stili** | Dzīvs priekšskatījums ar parauga darbiem, 5 gatavie stili (Noklusētais, Minimālisms, Mīksts, Liels un skaidrs, Blīvs), poga „Atjaunot noklusējumu“ |
+| **Krāsas** | **Tēma** (sistēmas / gaiša / tumša / melna), **pamatkrāsa** (16 krāsas + sava krāsa), fona tonis (neitrāls / silts / vēss / pamatkrāsas), kontrasts (parasts / augsts), sadaļas krāsa kā pamatkrāsa |
+| **Teksts** | **Fonts** (7 fonti), **teksta izmērs** (85–130 %), darbu teksta biezums (parasts / vidējs / pustrekns / trekns) |
+| **Izkārtojums** | Stūru noapaļojums (taisni / nedaudz / vidēji / apaļi), rindu blīvums (4 pakāpes), satura platums, saraksta izskats (bloks / kartītes / bez rāmja), atdalītāji (līnijas / svītrains / nav), ķeksīša forma, augšējās joslas stils, cilņu stils, ikonas cilnēs, animācijas |
+| **Darbi** | Kārtošana (prioritāte / termiņš / secība / jaunākie / A–Z), termiņi sarakstā, datuma formāts, prioritātes attēlojums, piezīmes (ikona / 1 rinda / 2 rindas / visu), pogas rindā (vienmēr / zem peles / nerādīt), izpildītie (rādīt, sakļauti, nosvītroti vai blāvi), skaitlis uz cilnēm |
+| **Uzvedība** | Jauna darba noklusētā prioritāte, apstiprinājums pirms dzēšanas, ko rādīt atverot lietotni (sākuma lapu vai pēdējo sarakstu) |
 | **Saraksts** | Nosaukums, visas sadaļas ar norādi „privāta“ vai „kopīgota“ — uzklikšķinot atveras dalībnieku pārvaldība; saraksta dzēšana vai pamešana |
+
+Iestatījumu lapas augšā ir cilnes, ar kurām var uzreiz pāriet uz vajadzīgo sadaļu.
 
 ### Katram savs izskats
 
 **Pamatkrāsa** nomaina visu izcelto elementu krāsu: pogas, ķeksīšus, slēdžus un
-pievienošanas pogu. Var izvēlēties no deviņām — tirkīza, zaļa, dzintara, oranža,
-sarkana, rozā, violeta, zila un grafīta. Tumšajam režīmam katrai ir sava, gaišāka
-versija, lai teksts uz tās paliek salasāms.
+pievienošanas pogu. Var izvēlēties no 16 krāsām vai ar pēdējo pogu uzlikt jebkuru savu
+krāsu. Tumšajam režīmam katrai gatavajai krāsai ir sava, gaišāka versija, lai teksts uz
+tās paliek salasāms; savai krāsai teksta krāsu (balta vai tumša) aplikācija izvēlas pati.
+Tās pašas 16 krāsas pieejamas arī sadaļām.
 
-**Teksta izmērs** palielina vai samazina darbu nosaukumus, piezīmes, sadaļu
-virsrakstus un cilnes (–8 % vai +13 %), neizjaucot izkārtojumu.
+**Teksta izmērs** ar slīdni palielina vai samazina darbu nosaukumus, piezīmes, sadaļu
+virsrakstus un cilnes (85–130 %), neizjaucot izkārtojumu.
+
+**Fonti** (Inter, Roboto, Nunito, Montserrat, Source Serif, JetBrains Mono) ir iekļauti
+pašā aplikācijā, tāpēc izskatās vienādi visās ierīcēs un neielādējas no ārējiem
+serveriem. Pārlūks lejupielādē tikai to fontu, kas izvēlēts.
+
+**Gatavie stili** vienā klikšķī nomaina formu, blīvumu un teksta izskatu, bet
+neaiztiek krāsas. Pēc tam jebkuru iestatījumu var mainīt atsevišķi.
 
 Izskats glabājas **kontā**, nevis ierīcē — telefonā, planšetē un datorā tas izskatās
 vienādi, un pēc pieteikšanās jaunā ierīcē viss atgriežas pats. Katram lietotājam ir
@@ -102,10 +119,24 @@ dažādās krāsās. Izvēle darbojas uzreiz, bez lapas pārlādes.
    - *Region:* `Central EU (Frankfurt)` — tuvākais Latvijai.
 2. Kad projekts izveidots (~2 min), atver **SQL Editor → New query**.
 3. Atver šī projekta failu **`supabase/schema.sql`**, nokopē **visu saturu**, ielīmē
-   un nospied **Run**. Ja apakšā parādās „Success“ — viss kārtībā.
+   un nospied **Run**.
 
-   > Šo failu var palaist arī atkārtoti — tas neko nedzēš un vienlaikus atjaunina
-   > vecāku versiju.
+   Apakšā parādīsies apstiprinājuma tabula:
+
+   | parbaude | rezultats |
+   |---|---|
+   | Shēmas versija | 2026-09-22 (sadaļu izveide salabota) |
+   | Sadaļu izveides labojums | ir |
+   | Izskata glabāšana kontā | ir |
+   | Kopīgošana pa sadaļām | ir |
+   | Tavi saraksti / sadaļas / darbi | *skaits* |
+
+   > **Ja šī tabula neparādās, fails nav izpildījies līdz galam** — parasti tāpēc, ka
+   > ielīmēta tikai daļa. Iezīmē visu failu (Ctrl+A tekstā) un ielīmē vēlreiz.
+   > Ja kāda rinda rāda „TRŪKST“, palaid failu vēlreiz.
+   >
+   > Failu var palaist cik reizes vien vajag — tas neko nedzēš un atjaunina vecāku versiju.
+   > Skaitļi apakšējās rindās rāda, ka tavi dati ir vietā.
 
 4. Atver **Project Settings (zobrats) → API** un saglabā divas **dažādas** vērtības:
 
@@ -209,11 +240,13 @@ npm run dev                     # http://localhost:3000
 
 ## Kā darbojas kopīgošana
 
-Kopīgošana notiek **pa vienai sadaļai**, nevis visam sarakstam.
+Kopīgošana notiek **pa sadaļām**, nevis visam sarakstam. Vienā reizē cilvēku var
+uzaicināt uz vienu vai vairākām sadaļām.
 
 1. Atver sadaļu un spied pogu pie tās nosaukuma — tā rāda **„Privāta“** vai
    dalībnieku skaitu. (To pašu var izdarīt Iestatījumos → Saraksts.)
-2. Ieraksti e-pastu un spied **„Uzaicināt“**.
+2. Ieraksti e-pastu, zem tā atzīmē sadaļas, uz kurām uzaicināt (atvērtā sadaļa jau ir
+   atzīmēta; „Atzīmēt visas“ atzīmē visas saraksta sadaļas), un spied **„Uzaicināt“**.
    - Ja cilvēks **jau ir reģistrējies** — viņš tiek pievienots uzreiz.
    - Ja **vēl nav** — uzaicinājums gaida. Tiklīdz viņš reģistrēsies **ar tieši to pašu
      e-pasta adresi**, sadaļa viņam parādīsies automātiski.
@@ -252,7 +285,7 @@ darbu-saraksts/
 │   │   ├── AppShell.tsx       ← pārslēdz sākuma lapu / sarakstu / iestatījumus
 │   │   ├── HomePage.tsx       ← sākuma lapa ar visiem sarakstiem
 │   │   ├── BoardView.tsx      ← viens saraksts: cilnes, darbi, visa loģika
-│   │   ├── SettingsPage.tsx   ← iestatījumi (profils, izskats, sadaļu kopīgošana)
+│   │   ├── SettingsPage.tsx   ← iestatījumi (profils, stili, izskats, uzvedība, sadaļu kopīgošana)
 │   │   ├── ShareDialog.tsx    ← kas redz konkrēto sadaļu + uzaicināšana
 │   │   ├── SectionTabs.tsx    ← cilnes augšā + „+ Sadaļa“
 │   │   ├── QuickAdd.tsx       ← pievienošanas josla ekrāna apakšā
@@ -264,8 +297,9 @@ darbu-saraksts/
 │   │   ├── Modal.tsx
 │   │   └── Icon.tsx
 │   └── lib/
-│       ├── icons.ts           ← ikonu komplekts un krāsas
-│       ├── settings.ts        ← lietotāja iestatījumi: tēma, pamatkrāsa, teksta izmērs
+│       ├── colors.ts          ← krāsu komplekts (pamatkrāsām un sadaļām)
+│       ├── icons.ts           ← ikonu komplekts
+│       ├── settings.ts        ← lietotāja iestatījumi, gatavie stili, fonti
 │       ├── errors.ts          ← kļūdu paskaidrojumi latviski
 │       ├── format.ts          ← datumi, kārtošana, dalībnieku vārdi
 │       ├── auth.ts            ← droša iziešana no konta
@@ -295,16 +329,23 @@ darbu-saraksts/
 **Jauna ikona** — `src/lib/icons.ts`: pievieno rindu `ICONS` sarakstā (SVG saturs 24×24
 rūtiņā) un ieraksti tās atslēgu kādā no `ICON_GROUPS` grupām.
 
-**Krāsas un izskats** — `src/app/globals.css`, mainīgo sadaļa `:root` (gaišajam režīmam)
-un `:root[data-theme='dark']` (tumšajam).
+**Krāsas un izskats** — `src/app/globals.css`, mainīgo sadaļa `:root` (gaišajam režīmam),
+`:root[data-theme='dark']` (tumšajam) un `:root[data-theme='black']` (melnajam).
 
-**Pamatkrāsu komplekts** — `globals.css`, mainīgie `--ac-teal … --ac-slate` (abos
-režīmos atsevišķi) un saraksts `ACCENTS` failā `src/lib/settings.ts`. Lai pievienotu
-desmito krāsu, jāpapildina abas vietas un jāpieliek rindas
-`:root[data-accent='…']` un `[data-ac='…']`.
+**Krāsu komplekts** — `globals.css`, mainīgie `--ac-teal … --ac-ink` (abos režīmos
+atsevišķi) un saraksts `COLORS` failā `src/lib/colors.ts`. Lai pievienotu jaunu krāsu,
+jāpapildina abas vietas un jāpieliek rindas `:root[data-accent='…']` un
+`[data-color='…']`.
 
-**Teksta izmēra pakāpes** — `globals.css`, `:root[data-text='small']` un
-`:root[data-text='large']` (mainīgais `--fs`).
+**Stūru noapaļojums** — `globals.css`, mainīgie `--r-xs`, `--r-sm`, `--r`, `--r-lg`,
+`--r-pill` un to vērtības rindās `:root[data-radius='…']`.
+
+**Teksta izmēra robežas** — `src/lib/settings.ts`, `FONT_SCALE`.
+
+**Fonti** — `src/lib/settings.ts`, saraksts `FONTS`, un importi failā
+`src/app/layout.tsx`.
+
+**Gatavie stili** — `src/lib/settings.ts`, saraksts `PRESETS`.
 
 **Prioritātes krāsas** — `globals.css`, mainīgie `--danger` (augsta), `--warn` (vidēja)
 un `--calm` (zema).
@@ -334,10 +375,10 @@ objekts `DEFAULT_SETTINGS`.
 | Reģistrējos, bet nekas nenotiek | Ieslēgta e-pasta apstiprināšana — pārbaudi pastu (arī mēstules). Vai izslēdz to: Supabase → Authentication → Providers → Email → *Confirm email*. |
 | Apstiprinājuma saite ved uz `localhost` | Supabase → Authentication → **URL Configuration** → uzstādi Site URL uz Vercel adresi (4. solis). |
 | Kļūda par `relation does not exist` | Nav palaists `supabase/schema.sql`. Palaid to SQL Editor. |
-| „Nav atļauts…“ vai neizdodas izveidot jaunu sadaļu | Datubāzē ir vecāka shēmas versija. Palaid `supabase/schema.sql` vēlreiz — tas atjaunina, neko nedzēšot. |
+| „Datubāze neatļāva šo darbību“, veidojot jaunu sadaļu | Palaid **jaunāko** `supabase/schema.sql` (2026-09-22 vai jaunāku) — vecākās versijās sadaļu redzamības noteikums bija tāds, ka tikko izveidota sadaļa pati sev nebija redzama, un datubāze izveidi atteica. Pārliecinies, ka apstiprinājuma tabulā rindā „Sadaļu izveides labojums“ ir „ir“. |
 | Izvēlētā krāsa vai teksta izmērs neseko uz citu ierīci | Tas pats: `supabase/schema.sql` jāpalaiž atkārtoti, lai profilam pievienotos lauks `settings`. |
 | Uzaicinātais neredz sadaļu | Viņam jāreģistrējas **ar tieši to pašu e-pasta adresi**, uz kuru sūtīts uzaicinājums. Pēc pieteikšanās saraksts parādās viņa sākuma lapā zem „Kopīgots ar mani“. |
-| Uzaicinātais neredz visas sadaļas | Tā arī paredzēts — viņš redz tikai tās, uz kurām ir uzaicināts. Katru sadaļu jākopīgo atsevišķi. |
+| Uzaicinātais neredz visas sadaļas | Tā arī paredzēts — viņš redz tikai tās, uz kurām ir uzaicināts. Uzaicinot atzīmē visas vajadzīgās sadaļas (vai spied „Atzīmēt visas“). |
 | Izmaiņas neparādās otram lietotājam | Pārlādē lapu. Realtime tiek pieslēgts automātiski `schema.sql` beigās. |
 
 ---

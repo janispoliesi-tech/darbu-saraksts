@@ -33,7 +33,6 @@ export default function AppShell({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Iestatījumus glabā gan ierīcē (ātrai ielādei), gan kontā (lai seko citās ierīcēs)
   const pushTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function setSettings(next: Settings) {
@@ -43,15 +42,17 @@ export default function AppShell({ session }: { session: Session }) {
 
     if (pushTimer.current) clearTimeout(pushTimer.current);
     pushTimer.current = setTimeout(() => {
-      // Ja saglabāšana kontā neizdodas, iestatījumi tāpat paliek šajā ierīcē
       supabase.from('profiles').update({ settings: next }).eq('id', userId).then(() => {});
     }, 700);
   }
 
   useEffect(() => {
     applyAppearance(settings);
-    return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
   }, [settings]);
+
+  useEffect(() => () => {
+    if (pushTimer.current) clearTimeout(pushTimer.current);
+  }, []);
 
   const loadBoards = useCallback(async () => {
     const { data, error } = await supabase
@@ -79,13 +80,22 @@ export default function AppShell({ session }: { session: Session }) {
         setBoards(list);
         setDisplayName(profile.data?.display_name ?? userEmail.split('@')[0] ?? '');
 
-        // Kontā saglabātais izskats pārņem vadību, lai jaunā ierīcē viss izskatās tāpat
+        let effective = loadSettings();
         const remote = profile.data?.settings;
         if (remote && typeof remote === 'object') {
-          const merged = normalizeSettings({ ...loadSettings(), ...remote });
-          setSettingsState(merged);
-          saveSettings(merged);
-          applyAppearance(merged);
+          effective = normalizeSettings({ ...effective, ...remote });
+          setSettingsState(effective);
+          saveSettings(effective);
+          applyAppearance(effective);
+        }
+
+        if (effective.startView === 'last') {
+          let last: string | null = null;
+          try { last = localStorage.getItem(LS_BOARD); } catch { last = null; }
+          if (last && list.some((b) => b.id === last)) {
+            setBoardId(last);
+            setView('board');
+          }
         }
       } catch (err) {
         if (!cancelled) setError(errorText(err));
@@ -115,7 +125,7 @@ export default function AppShell({ session }: { session: Session }) {
 
   function openBoard(id: string) {
     setBoardId(id);
-    try { localStorage.setItem(LS_BOARD, id); } catch { /* ignorē */ }
+    try { localStorage.setItem(LS_BOARD, id); } catch {}
     setView('board');
   }
 

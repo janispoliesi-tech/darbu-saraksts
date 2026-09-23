@@ -4,14 +4,11 @@ import { useState } from 'react';
 import Icon from './Icon';
 
 type Props = {
-  /** Ātrā pievienošana: tikai nosaukums */
   onAdd: (title: string) => void;
-  /** Atver logu ar piezīmi, termiņu un prioritāti */
   onOpenFull: (title: string) => void;
   disabled?: boolean;
 };
 
-/** Šaura josla ekrāna apakšā jauna darba pievienošanai. */
 export default function QuickAdd({ onAdd, onOpenFull, disabled }: Props) {
   const [title, setTitle] = useState('');
   const ready = title.trim().length > 0;

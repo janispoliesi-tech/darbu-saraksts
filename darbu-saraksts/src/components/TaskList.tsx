@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Task } from '@/lib/types';
 import type { Settings } from '@/lib/settings';
 import { plural } from '@/lib/format';
@@ -17,7 +17,8 @@ type Props = {
 };
 
 export default function TaskList({ tasks, settings, onToggle, onDelete, onOpen, onClearDone }: Props) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(settings.doneCollapsed);
+  useEffect(() => setCollapsed(settings.doneCollapsed), [settings.doneCollapsed]);
   const open = tasks.filter((t) => !t.is_done);
   const done = tasks.filter((t) => t.is_done);
 

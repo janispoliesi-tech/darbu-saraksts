@@ -7,7 +7,6 @@ import Icon from './Icon';
 import PasswordInput from './PasswordInput';
 import { readableError } from './AuthScreen';
 
-/** Parādās, kad lietotājs atvēris paroles atjaunošanas saiti no e-pasta. */
 export default function NewPasswordScreen({ onDone }: { onDone: () => void }) {
   const supabase = getSupabase();
   const [password, setPassword] = useState('');

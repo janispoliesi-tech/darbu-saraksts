@@ -1,7 +1,3 @@
-/* ============================================================================
-   Datubāzes kļūdu pārtulkošana saprotamā valodā.
-   ========================================================================= */
-
 export function errorText(err: unknown): string {
   const msg =
     err && typeof err === 'object' && 'message' in err

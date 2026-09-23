@@ -15,7 +15,6 @@ export default function AppRoot() {
   const [fatal, setFatal] = useState<string | null>(null);
   const [recovery, setRecovery] = useState(false);
 
-  // Izskats jāuzstāda arī pirms pieteikšanās
   useEffect(() => {
     applyAppearance(loadSettings());
   }, []);
@@ -43,7 +42,6 @@ export default function AppRoot() {
         });
 
       const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
-        // Lietotājs atvēris paroles atjaunošanas saiti no e-pasta
         if (event === 'PASSWORD_RECOVERY') setRecovery(true);
         if (event === 'SIGNED_OUT') setRecovery(false);
         setSession(s);

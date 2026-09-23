@@ -22,6 +22,7 @@ export default function TaskRow({ task, settings, onToggle, onDelete, onOpen }: 
       (settings.showDue === 'overdue' && (ds === 'overdue' || ds === 'today')));
 
   const hasNote = !!task.note?.trim();
+  const noteInline = settings.notes !== 'icon';
 
   return (
     <li className={`task prio-${task.priority}${task.is_done ? ' is-done' : ''}`}>
@@ -37,37 +38,38 @@ export default function TaskRow({ task, settings, onToggle, onDelete, onOpen }: 
       <button className="task-main" onClick={() => onOpen(task)} title="Atvērt un rediģēt">
         <span className="task-text">
           <span className="task-title">{task.title}</span>
-          {settings.showNotes && hasNote ? <span className="task-note">{task.note}</span> : null}
+          {noteInline && hasNote ? <span className="task-note">{task.note}</span> : null}
         </span>
 
         <span className="task-badges">
           {showDue ? (
             <span className={`mini${ds === 'overdue' ? ' overdue' : ds === 'today' ? ' today' : ''}`}>
               <Icon name="calendar" />
-              {formatDue(task.due_date as string)}
+              {formatDue(task.due_date as string, settings.dateStyle)}
             </span>
           ) : null}
-          {!settings.showNotes && hasNote ? <Icon name="note" className="note-dot" /> : null}
+          {!noteInline && hasNote ? <Icon name="note" className="note-dot" /> : null}
         </span>
       </button>
 
-      <button
-        className="icon-btn tiny"
-        onClick={() => onOpen(task)}
-        aria-label="Rediģēt darbu"
-        title="Rediģēt"
-      >
-        <Icon name="pencil" />
-      </button>
-
-      <button
-        className="icon-btn tiny danger"
-        onClick={() => onDelete(task)}
-        aria-label="Dzēst darbu"
-        title="Dzēst"
-      >
-        <Icon name="trash" />
-      </button>
+      <span className="task-actions">
+        <button
+          className="icon-btn tiny"
+          onClick={() => onOpen(task)}
+          aria-label="Rediģēt darbu"
+          title="Rediģēt"
+        >
+          <Icon name="pencil" />
+        </button>
+        <button
+          className="icon-btn tiny danger"
+          onClick={() => onDelete(task)}
+          aria-label="Dzēst darbu"
+          title="Dzēst"
+        >
+          <Icon name="trash" />
+        </button>
+      </span>
     </li>
   );
 }

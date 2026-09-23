@@ -8,7 +8,6 @@ export type Board = {
   created_at: string;
 };
 
-/** Cilvēks, kam ir pieeja konkrētai sadaļai */
 export type SectionMember = {
   section_id: string;
   user_id: string;
@@ -17,7 +16,6 @@ export type SectionMember = {
   created_at: string;
 };
 
-/** Uzaicinājums uz sadaļu, kas gaida reģistrēšanos */
 export type SectionInvitation = {
   id: string;
   section_id: string;
@@ -50,4 +48,4 @@ export type Task = {
   created_at: string;
 };
 
-export type SortMode = 'priority' | 'due' | 'added';
+export type SortMode = 'priority' | 'due' | 'added' | 'newest' | 'alpha';

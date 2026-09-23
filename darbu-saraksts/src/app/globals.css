@@ -1,55 +1,61 @@
-/* ============================================================================
-   DARBU SARAKSTS — vienotais stils (telefons / planšete / dators)
-   ========================================================================= */
-
-/* --- 1. Krāsas un mainīgie ------------------------------------------------ */
+/* Krāsas un mainīgie */
 :root {
   color-scheme: light dark;
 
-  --bg: #f4f6f8;
-  --bg-elev: #ffffff;
-  --bg-sunken: #eceff3;
-  --line: #e2e7ee;
-  --line-strong: #cbd4df;
+  --bg-0: #f4f6f8;
+  --elev-0: #ffffff;
+  --sunken-0: #eceff3;
+  --line-0: #e2e7ee;
+  --line-strong-0: #cbd4df;
   --text: #16202c;
   --text-soft: #5d6b7c;
   --text-faint: #8b97a6;
 
-  /* Pamatkrāsas, ko lietotājs izvēlas iestatījumos */
   --ac-teal: #0d8a7e;
-  --ac-green: #3d8a2e;
-  --ac-amber: #a0711a;
-  --ac-orange: #c1561b;
-  --ac-red: #c5333b;
-  --ac-pink: #b5386f;
-  --ac-violet: #6b48c0;
+  --ac-cyan: #0a7ea4;
   --ac-blue: #2263c6;
+  --ac-indigo: #4651c9;
+  --ac-violet: #6b48c0;
+  --ac-purple: #8a3fae;
+  --ac-pink: #b5386f;
+  --ac-red: #c5333b;
+  --ac-orange: #c1561b;
+  --ac-amber: #a0711a;
+  --ac-olive: #6b7a1a;
+  --ac-green: #3d8a2e;
+  --ac-emerald: #0f8a57;
+  --ac-brown: #8a5a3b;
   --ac-slate: #526176;
+  --ac-ink: #1c232b;
   --accent-on: #ffffff;
 
   --accent: var(--ac-teal);
   --accent-text: var(--accent-on);
 
-  /* Teksta izmēra reizinātājs */
-  --fs: 1;
-
   --danger: #d8434b;
   --warn: #dd8a09;
   --calm: #8d9cae;
 
-  --sc-teal: #0d9488;
-  --sc-green: #3f8f2f;
-  --sc-amber: #b5811a;
-  --sc-orange: #d1621f;
-  --sc-red: #cf3a41;
-  --sc-pink: #c23c7d;
-  --sc-violet: #7852cf;
-  --sc-blue: #2570d8;
-  --sc-slate: #5c6b7d;
+  --tint: #888888;
+  --tint-bg: 0%;
+  --tint-elev: 0%;
+  --tint-line: 0%;
 
-  --radius: 14px;
-  --radius-sm: 10px;
-  --radius-lg: 20px;
+  --bg: color-mix(in srgb, var(--tint) var(--tint-bg), var(--bg-0));
+  --bg-elev: color-mix(in srgb, var(--tint) var(--tint-elev), var(--elev-0));
+  --bg-sunken: color-mix(in srgb, var(--tint) var(--tint-bg), var(--sunken-0));
+  --line: color-mix(in srgb, var(--tint) var(--tint-line), var(--line-0));
+  --line-strong: color-mix(in srgb, var(--tint) var(--tint-line), var(--line-strong-0));
+
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --fs: 1;
+  --title-weight: 700;
+
+  --r-xs: 3px;
+  --r-sm: 4px;
+  --r: 6px;
+  --r-lg: 8px;
+  --r-pill: 5px;
 
   --shadow-sm: 0 1px 2px rgba(16, 27, 40, 0.06);
   --shadow-md: 0 4px 14px rgba(16, 27, 40, 0.09);
@@ -57,132 +63,180 @@
 
   --maxw: 760px;
   --header-h: 52px;
-  --tabs-h: 50px;
   --row-pad: 7px;
+  --list-gap: 5px;
 }
 
-/* Tumšās krāsas: automātiski pēc ierīces… */
+:root[data-theme='light'] { color-scheme: light; }
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #12171d;
-    --bg-elev: #1a2129;
-    --bg-sunken: #0e141a;
-    --line: #2a333d;
-    --line-strong: #3d4956;
+    color-scheme: dark;
+    --bg-0: #12171d;
+    --elev-0: #1a2129;
+    --sunken-0: #0e141a;
+    --line-0: #2a333d;
+    --line-strong-0: #3d4956;
     --text: #e8edf3;
     --text-soft: #9daabb;
     --text-faint: #71808f;
     --ac-teal: #2dd4bf;
-    --ac-green: #6fd043;
-    --ac-amber: #e8b44a;
-    --ac-orange: #f5904f;
-    --ac-red: #ff7a80;
-    --ac-pink: #f277b4;
-    --ac-violet: #a68cf5;
+    --ac-cyan: #38c4ec;
     --ac-blue: #64a6ff;
+    --ac-indigo: #8f98ff;
+    --ac-violet: #a68cf5;
+    --ac-purple: #d08af0;
+    --ac-pink: #f277b4;
+    --ac-red: #ff7a80;
+    --ac-orange: #f5904f;
+    --ac-amber: #e8b44a;
+    --ac-olive: #bfcd52;
+    --ac-green: #6fd043;
+    --ac-emerald: #3ddc97;
+    --ac-brown: #d6a37f;
     --ac-slate: #9aa9ba;
+    --ac-ink: #e8edf3;
     --accent-on: #0b1116;
     --danger: #ff6b6b;
     --warn: #eaa33a;
     --calm: #64748b;
-    --sc-teal: #2dd4bf;
-    --sc-green: #6fd043;
-    --sc-amber: #e8b44a;
-    --sc-orange: #f5904f;
-    --sc-red: #ff7a80;
-    --sc-pink: #f277b4;
-    --sc-violet: #a68cf5;
-    --sc-blue: #64a6ff;
-    --sc-slate: #9aa9ba;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
     --shadow-lg: 0 20px 52px rgba(0, 0, 0, 0.6);
   }
 }
 
-/* …vai izvēlēts iestatījumos */
-:root[data-theme='dark'] {
-  --bg: #12171d;
-  --bg-elev: #1a2129;
-  --bg-sunken: #0e141a;
-  --line: #2a333d;
-  --line-strong: #3d4956;
+:root[data-theme='dark'],
+:root[data-theme='black'] {
+  color-scheme: dark;
+  --bg-0: #12171d;
+  --elev-0: #1a2129;
+  --sunken-0: #0e141a;
+  --line-0: #2a333d;
+  --line-strong-0: #3d4956;
   --text: #e8edf3;
   --text-soft: #9daabb;
   --text-faint: #71808f;
   --ac-teal: #2dd4bf;
-  --ac-green: #6fd043;
-  --ac-amber: #e8b44a;
-  --ac-orange: #f5904f;
-  --ac-red: #ff7a80;
-  --ac-pink: #f277b4;
-  --ac-violet: #a68cf5;
+  --ac-cyan: #38c4ec;
   --ac-blue: #64a6ff;
+  --ac-indigo: #8f98ff;
+  --ac-violet: #a68cf5;
+  --ac-purple: #d08af0;
+  --ac-pink: #f277b4;
+  --ac-red: #ff7a80;
+  --ac-orange: #f5904f;
+  --ac-amber: #e8b44a;
+  --ac-olive: #bfcd52;
+  --ac-green: #6fd043;
+  --ac-emerald: #3ddc97;
+  --ac-brown: #d6a37f;
   --ac-slate: #9aa9ba;
+  --ac-ink: #e8edf3;
   --accent-on: #0b1116;
   --danger: #ff6b6b;
   --warn: #eaa33a;
   --calm: #64748b;
-  --sc-teal: #2dd4bf;
-  --sc-green: #6fd043;
-  --sc-amber: #e8b44a;
-  --sc-orange: #f5904f;
-  --sc-red: #ff7a80;
-  --sc-pink: #f277b4;
-  --sc-violet: #a68cf5;
-  --sc-blue: #64a6ff;
-  --sc-slate: #9aa9ba;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 20px 52px rgba(0, 0, 0, 0.6);
 }
 
-/* Lietotāja izvēlētā pamatkrāsa (data-accent uz <html>) */
-:root[data-accent='teal']   { --accent: var(--ac-teal); }
-:root[data-accent='green']  { --accent: var(--ac-green); }
-:root[data-accent='amber']  { --accent: var(--ac-amber); }
-:root[data-accent='orange'] { --accent: var(--ac-orange); }
-:root[data-accent='red']    { --accent: var(--ac-red); }
-:root[data-accent='pink']   { --accent: var(--ac-pink); }
-:root[data-accent='violet'] { --accent: var(--ac-violet); }
-:root[data-accent='blue']   { --accent: var(--ac-blue); }
-:root[data-accent='slate']  { --accent: var(--ac-slate); }
+:root[data-theme='black'] {
+  --bg-0: #000000;
+  --elev-0: #101317;
+  --sunken-0: #07090b;
+  --line-0: #22272e;
+  --line-strong-0: #343b44;
+}
 
-/* Tie paši toņi krāsu izvēles punktiņiem iestatījumos */
-[data-ac='teal']   { --sc: var(--ac-teal); }
-[data-ac='green']  { --sc: var(--ac-green); }
-[data-ac='amber']  { --sc: var(--ac-amber); }
-[data-ac='orange'] { --sc: var(--ac-orange); }
-[data-ac='red']    { --sc: var(--ac-red); }
-[data-ac='pink']   { --sc: var(--ac-pink); }
-[data-ac='violet'] { --sc: var(--ac-violet); }
-[data-ac='blue']   { --sc: var(--ac-blue); }
-[data-ac='slate']  { --sc: var(--ac-slate); }
+:root[data-contrast='high'] {
+  --text: #05090e;
+  --text-soft: #2f3a46;
+  --text-faint: #4f5b68;
+  --line-0: #b8c2ce;
+  --line-strong-0: #8793a2;
+}
 
-/* Teksta izmērs */
-:root[data-text='small'] { --fs: 0.92; }
-:root[data-text='large'] { --fs: 1.13; }
+@media (prefers-color-scheme: dark) {
+  :root[data-contrast='high']:not([data-theme='light']) {
+    --text: #ffffff;
+    --text-soft: #cfd8e3;
+    --text-faint: #a9b5c3;
+    --line-0: #4a5664;
+    --line-strong-0: #6b7a8b;
+  }
+}
 
-/* Sadaļu krāsas — piešķir ar data-color="teal" utt. */
-[data-color='teal']   { --sc: var(--sc-teal); }
-[data-color='green']  { --sc: var(--sc-green); }
-[data-color='amber']  { --sc: var(--sc-amber); }
-[data-color='orange'] { --sc: var(--sc-orange); }
-[data-color='red']    { --sc: var(--sc-red); }
-[data-color='pink']   { --sc: var(--sc-pink); }
-[data-color='violet'] { --sc: var(--sc-violet); }
-[data-color='blue']   { --sc: var(--sc-blue); }
-[data-color='slate']  { --sc: var(--sc-slate); }
+:root[data-contrast='high'][data-theme='dark'],
+:root[data-contrast='high'][data-theme='black'] {
+  --text: #ffffff;
+  --text-soft: #cfd8e3;
+  --text-faint: #a9b5c3;
+  --line-0: #4a5664;
+  --line-strong-0: #6b7a8b;
+}
 
-/* --- 2. Pamats ------------------------------------------------------------ */
+:root[data-surface='warm'] { --tint: #c08a4a; --tint-bg: 9%; --tint-elev: 4%; --tint-line: 12%; }
+:root[data-surface='cool'] { --tint: #4a78c0; --tint-bg: 7%; --tint-elev: 3%; --tint-line: 10%; }
+:root[data-surface='tinted'] { --tint: var(--accent); --tint-bg: 8%; --tint-elev: 3%; --tint-line: 12%; }
+
+:root[data-accent='teal']    { --accent: var(--ac-teal); }
+:root[data-accent='cyan']    { --accent: var(--ac-cyan); }
+:root[data-accent='blue']    { --accent: var(--ac-blue); }
+:root[data-accent='indigo']  { --accent: var(--ac-indigo); }
+:root[data-accent='violet']  { --accent: var(--ac-violet); }
+:root[data-accent='purple']  { --accent: var(--ac-purple); }
+:root[data-accent='pink']    { --accent: var(--ac-pink); }
+:root[data-accent='red']     { --accent: var(--ac-red); }
+:root[data-accent='orange']  { --accent: var(--ac-orange); }
+:root[data-accent='amber']   { --accent: var(--ac-amber); }
+:root[data-accent='olive']   { --accent: var(--ac-olive); }
+:root[data-accent='green']   { --accent: var(--ac-green); }
+:root[data-accent='emerald'] { --accent: var(--ac-emerald); }
+:root[data-accent='brown']   { --accent: var(--ac-brown); }
+:root[data-accent='slate']   { --accent: var(--ac-slate); }
+:root[data-accent='ink']     { --accent: var(--ac-ink); }
+
+[data-color='teal']    { --sc: var(--ac-teal); }
+[data-color='cyan']    { --sc: var(--ac-cyan); }
+[data-color='blue']    { --sc: var(--ac-blue); }
+[data-color='indigo']  { --sc: var(--ac-indigo); }
+[data-color='violet']  { --sc: var(--ac-violet); }
+[data-color='purple']  { --sc: var(--ac-purple); }
+[data-color='pink']    { --sc: var(--ac-pink); }
+[data-color='red']     { --sc: var(--ac-red); }
+[data-color='orange']  { --sc: var(--ac-orange); }
+[data-color='amber']   { --sc: var(--ac-amber); }
+[data-color='olive']   { --sc: var(--ac-olive); }
+[data-color='green']   { --sc: var(--ac-green); }
+[data-color='emerald'] { --sc: var(--ac-emerald); }
+[data-color='brown']   { --sc: var(--ac-brown); }
+[data-color='slate']   { --sc: var(--ac-slate); }
+[data-color='ink']     { --sc: var(--ac-ink); }
+
+.app[data-sec-accent='on'] { --accent: var(--sc); --accent-text: var(--accent-on); }
+
+:root[data-radius='none'] { --r-xs: 0px; --r-sm: 0px; --r: 0px; --r-lg: 0px; --r-pill: 0px; }
+:root[data-radius='medium'] { --r-xs: 6px; --r-sm: 8px; --r: 10px; --r-lg: 14px; --r-pill: 10px; }
+:root[data-radius='round'] { --r-xs: 7px; --r-sm: 10px; --r: 14px; --r-lg: 20px; --r-pill: 999px; }
+
+:root[data-density='tight'] { --row-pad: 3px; --list-gap: 3px; }
+:root[data-density='cozy'] { --row-pad: 12px; --list-gap: 8px; }
+:root[data-density='spacious'] { --row-pad: 16px; --list-gap: 10px; }
+
+:root[data-width='narrow'] { --maxw: 620px; }
+:root[data-width='wide'] { --maxw: 1040px; }
+:root[data-width='full'] { --maxw: 100%; }
+
+/* Pamats */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, 'Noto Sans', sans-serif;
+  font-family: var(--font);
   font-size: 16px;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
@@ -196,7 +250,7 @@ button { cursor: pointer; }
 h1, h2, h3, p { margin: 0; }
 ul { list-style: none; margin: 0; padding: 0; }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-xs); }
 
 .icon { width: 1.25em; height: 1.25em; flex: none; display: block; }
 .sr-only {
@@ -204,7 +258,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-/* --- 3. Augšējā josla ----------------------------------------------------- */
+/* Augšējā josla */
 .app { min-height: 100%; display: flex; flex-direction: column; }
 
 .topbar {
@@ -221,25 +275,38 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 
 .brand-mark {
-  width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+  width: 28px; height: 28px; border-radius: var(--r-sm); display: grid; place-items: center;
   background: var(--accent); color: var(--accent-text); flex: none;
 }
 .brand-mark .icon { width: 17px; height: 17px; }
 
-/* Saraksta nosaukums = pārslēdzējs */
 .board-pick {
   display: flex; align-items: center; gap: 5px; min-width: 0; flex: 1;
   padding: 6px 10px; margin-left: 2px;
-  border-radius: 10px; border: 1px solid transparent; background: transparent;
+  border-radius: var(--r-sm); border: 1px solid transparent; background: transparent;
   font-size: 16px; font-weight: 700; letter-spacing: -0.015em; color: var(--text);
 }
 .board-pick span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .board-pick .icon { width: 16px; height: 16px; color: var(--text-faint); }
 .board-pick:hover { background: var(--bg-sunken); }
 
-.topbar-actions { display: flex; align-items: center; gap: 2px; flex: none; }
+.topbar-actions { display: flex; align-items: center; gap: 2px; flex: none; margin-left: auto; }
 
-/* --- 4. Sadaļu cilnes (horizontāli ritināmas) ----------------------------- */
+:root[data-header='solid'] .topbar,
+:root[data-header='solid'] .tabs-outer { background: var(--bg-elev); backdrop-filter: none; }
+
+:root[data-header='accent'] .topbar {
+  background: var(--accent); color: var(--accent-text);
+  border-bottom-color: transparent; backdrop-filter: none;
+}
+:root[data-header='accent'] .topbar .icon-btn { color: color-mix(in srgb, var(--accent-text) 82%, transparent); }
+:root[data-header='accent'] .topbar .icon-btn:hover { background: color-mix(in srgb, var(--accent-text) 16%, transparent); color: var(--accent-text); }
+:root[data-header='accent'] .board-pick { color: inherit; }
+:root[data-header='accent'] .board-pick:hover { background: color-mix(in srgb, var(--accent-text) 14%, transparent); }
+:root[data-header='accent'] .brand-mark { background: var(--accent-text); color: var(--accent); }
+:root[data-header='accent'] .topbar .badge { background: color-mix(in srgb, var(--accent-text) 18%, transparent); color: inherit; }
+
+/* Sadaļu cilnes */
 .tabs-outer {
   position: sticky; top: calc(var(--header-h) + env(safe-area-inset-top)); z-index: 25;
   background: color-mix(in srgb, var(--bg-elev) 90%, transparent);
@@ -254,10 +321,10 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .tabs-scroller::-webkit-scrollbar { display: none; }
 
+.tab:not([data-color]) { --sc: var(--ac-slate); }
 .tab {
-  --sc: var(--sc-slate);
   display: inline-flex; align-items: center; gap: 7px; flex: none;
-  scroll-snap-align: start; padding: 7px 12px; border-radius: 999px;
+  scroll-snap-align: start; padding: 7px 12px; border-radius: var(--r-pill);
   border: 1px solid var(--line); background: var(--bg-elev);
   color: var(--text-soft); font-weight: 600; font-size: calc(14px * var(--fs)); white-space: nowrap;
   transition: background 0.16s, color 0.16s, border-color 0.16s, transform 0.12s;
@@ -267,7 +334,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .tab-count {
   display: inline-grid; place-items: center; min-width: 18px; height: 18px;
-  padding: 0 5px; border-radius: 999px; background: var(--bg-sunken);
+  padding: 0 5px; border-radius: var(--r-pill); background: var(--bg-sunken);
   color: var(--text-faint); font-size: 11.5px; font-weight: 700;
 }
 
@@ -281,26 +348,42 @@ ul { list-style: none; margin: 0; padding: 0; }
   color: color-mix(in srgb, var(--sc) 80%, var(--text));
 }
 
-.tab-shared { width: 14px; height: 14px; color: var(--text-faint); opacity: 0.8; }
+.tab .tab-shared { width: 14px; height: 14px; color: var(--text-faint); opacity: 0.8; }
 .tab.is-active .tab-shared { color: inherit; opacity: 0.9; }
 
 .tab-add {
   display: inline-flex; align-items: center; gap: 5px; flex: none;
-  padding: 7px 12px; border-radius: 999px;
+  padding: 7px 12px; border-radius: var(--r-pill);
   border: 1.5px dashed var(--line-strong); background: transparent;
   color: var(--text-soft); font-weight: 600; font-size: 14px; white-space: nowrap;
 }
 .tab-add:hover { color: var(--accent); border-color: var(--accent); }
 
-/* --- 5. Galvenais saturs -------------------------------------------------- */
+:root[data-tab-icons='off'] .tab .tab-icon { display: none; }
+
+:root[data-tabs='underline'] .tabs-scroller { gap: 2px; padding-top: 0; padding-bottom: 0; }
+:root[data-tabs='underline'] .tab,
+:root[data-tabs='underline'] .tab-add {
+  border: none; border-bottom: 2px solid transparent; border-radius: 0;
+  background: transparent; padding: 12px 10px 10px;
+}
+:root[data-tabs='underline'] .tab:active { transform: none; }
+:root[data-tabs='underline'] .tab.is-active {
+  background: transparent; border-bottom-color: var(--sc);
+  color: color-mix(in srgb, var(--sc) 75%, var(--text));
+}
+
+:root[data-tabs='filled'] .tab.is-active { background: var(--sc); border-color: var(--sc); color: var(--accent-on); }
+:root[data-tabs='filled'] .tab.is-active .icon { color: inherit; }
+:root[data-tabs='filled'] .tab.is-active .tab-count { background: color-mix(in srgb, var(--accent-on) 22%, transparent); color: inherit; }
+
+/* Galvenais saturs */
 .main {
   flex: 1; width: 100%; max-width: var(--maxw); margin: 0 auto;
   padding: 12px 12px calc(86px + env(safe-area-inset-bottom));
 }
 
-.section-head {
-  display: flex; align-items: center; gap: 8px; margin: 2px 2px 10px;
-}
+.section-head { display: flex; align-items: center; gap: 8px; margin: 2px 2px 10px; }
 .section-title {
   display: flex; align-items: center; gap: 9px; min-width: 0;
   font-size: calc(19px * var(--fs)); font-weight: 700; letter-spacing: -0.02em;
@@ -309,65 +392,107 @@ ul { list-style: none; margin: 0; padding: 0; }
 .section-title span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .section-tools { margin-left: auto; display: flex; align-items: center; gap: 2px; flex: none; }
 
-/* --- 6. Darbu saraksts (kompakts) ----------------------------------------- */
-.app[data-density='cozy'] { --row-pad: 12px; }
-
+/* Darbu saraksts */
 .list {
   background: var(--bg-elev);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--r);
   overflow: hidden;
 }
-.list + .list { margin-top: 0; }
 
 .task {
-  --prio: transparent;
+  --pc: transparent;
   display: flex; align-items: center; gap: 9px;
   padding: var(--row-pad) 6px var(--row-pad) 0;
   border-bottom: 1px solid var(--line);
-  transition: background 0.15s;
+  transition: background-color 0.15s;
 }
 .task:last-child { border-bottom: none; }
-/* Prioritātes krāsa — svītra pa visu rindas augstumu */
-.task { box-shadow: inset 3px 0 0 0 var(--prio); }
-.task:hover { background: color-mix(in srgb, var(--text) 3%, transparent); }
+.task:hover { background-color: color-mix(in srgb, var(--text) 3%, transparent); }
 
-.app[data-prio='on'] .task.prio-1 { --prio: var(--danger); }
-.app[data-prio='on'] .task.prio-2 { --prio: var(--warn); }
-.app[data-prio='on'] .task.prio-3 { --prio: var(--calm); }
-.task.is-done { --prio: transparent !important; }
+.task.prio-1 { --pc: var(--danger); }
+.task.prio-2 { --pc: var(--warn); }
+.task.prio-3 { --pc: var(--calm); }
+.task.is-done { --pc: transparent; }
+
+:root[data-list='cards'] .list {
+  background: transparent; border: none; border-radius: 0; overflow: visible;
+  display: flex; flex-direction: column; gap: var(--list-gap);
+}
+:root[data-list='cards'] .task {
+  background-color: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--r);
+}
+:root[data-list='cards'] .task:hover { background-color: color-mix(in srgb, var(--text) 3%, var(--bg-elev)); }
+
+:root[data-list='plain'] .list { background: transparent; border: none; border-radius: 0; }
+
+:root[data-dividers='zebra']:not([data-list='cards']) .task,
+:root[data-dividers='none']:not([data-list='cards']) .task { border-bottom: none; }
+:root[data-dividers='zebra']:not([data-list='cards']) .task:nth-child(even) {
+  background-color: color-mix(in srgb, var(--text) 4%, transparent);
+}
+:root[data-dividers='zebra']:not([data-list='cards']) .task:hover {
+  background-color: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+:root[data-prio='bar'] .task { box-shadow: inset 3px 0 0 0 var(--pc); }
+:root[data-prio='dot'] .task:not(.is-done) .task-title::before {
+  content: ''; display: inline-block; width: 0.5em; height: 0.5em; border-radius: 50%;
+  background: var(--pc); margin-right: 0.45em; vertical-align: 0.08em;
+}
+:root[data-prio='tint'] .task.prio-1:not(.is-done),
+:root[data-prio='tint'] .task.prio-2:not(.is-done) {
+  background-image: linear-gradient(color-mix(in srgb, var(--pc) 10%, transparent), color-mix(in srgb, var(--pc) 10%, transparent));
+}
+:root[data-prio='tick'] .task:not(.is-done) .tickbox:not(:hover) { border-color: var(--pc); }
 
 .tickbox {
   flex: none; width: 21px; height: 21px; margin-left: 9px;
-  border-radius: 7px; border: 2px solid var(--line-strong); background: transparent;
-  display: grid; place-items: center; color: transparent;
+  border-radius: var(--r-xs); border: 2px solid var(--line-strong); background: transparent;
+  display: grid; place-items: center; color: transparent; padding: 0;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .tickbox .icon { width: 13px; height: 13px; }
 .tickbox:hover { border-color: var(--accent); }
 .tickbox.on { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+:root[data-tick='circle'] .tickbox { border-radius: 50%; }
 
 .task-main {
   flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;
   border: none; background: transparent; padding: 2px 0; text-align: left;
 }
 .task-text { flex: 1; min-width: 0; }
-.task-title { font-size: calc(15px * var(--fs)); font-weight: 500; word-break: break-word; display: block; }
+.task-title {
+  font-size: calc(15px * var(--fs)); font-weight: var(--title-weight);
+  word-break: break-word; display: block;
+}
 .task-note {
   font-size: calc(12.5px * var(--fs)); color: var(--text-soft); margin-top: 1px;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
+:root[data-notes='one'] .task-note { -webkit-line-clamp: 1; }
+:root[data-notes='all'] .task-note { display: block; -webkit-line-clamp: unset; overflow: visible; white-space: pre-wrap; }
 
 .task.is-done { opacity: 0.5; }
 .task.is-done .task-title,
-.task.is-done .task-note { text-decoration: line-through; color: var(--text-soft); }
+.task.is-done .task-note { color: var(--text-soft); }
+:root:not([data-done='fade']) .task.is-done .task-title,
+:root:not([data-done='fade']) .task.is-done .task-note { text-decoration: line-through; }
 
 .task-badges { display: flex; align-items: center; gap: 5px; flex: none; }
+.task-actions { display: flex; align-items: center; flex: none; transition: opacity 0.15s; }
+:root[data-actions='hidden'] .task-actions { display: none; }
+:root[data-actions='hidden'] .task { padding-right: 10px; }
+@media (hover: hover) {
+  :root[data-actions='hover'] .task-actions { opacity: 0; }
+  :root[data-actions='hover'] .task:hover .task-actions,
+  :root[data-actions='hover'] .task:focus-within .task-actions { opacity: 1; }
+}
 
 .mini {
   display: inline-flex; align-items: center; gap: 4px;
   font-size: calc(11.5px * var(--fs)); font-weight: 650; color: var(--text-faint);
-  background: var(--bg-sunken); border-radius: 999px; padding: 2px 7px;
+  background: var(--bg-sunken); border-radius: var(--r-pill); padding: 2px 7px;
   white-space: nowrap;
 }
 .mini .icon { width: 12px; height: 12px; }
@@ -377,7 +502,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .icon-btn {
   width: 32px; height: 32px; display: grid; place-items: center;
-  border-radius: 9px; border: none; background: transparent; color: var(--text-faint);
+  border-radius: var(--r-sm); border: none; background: transparent; color: var(--text-faint);
   transition: background 0.15s, color 0.15s; flex: none;
 }
 .icon-btn:hover { background: var(--bg-sunken); color: var(--text); }
@@ -385,10 +510,10 @@ ul { list-style: none; margin: 0; padding: 0; }
 .icon-btn .icon { width: 17px; height: 17px; }
 .icon-btn.tiny { width: 28px; height: 28px; }
 .icon-btn.tiny .icon { width: 15px; height: 15px; }
-/* Poga „kopīgot sadaļu“ ar dalībnieku skaitu */
+
 .chip-btn {
   display: inline-flex; align-items: center; gap: 5px; height: 32px; padding: 0 11px;
-  border-radius: 999px; border: 1px solid var(--line); background: var(--bg-elev);
+  border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--bg-elev);
   color: var(--text-soft); font-size: 13px; font-weight: 650; flex: none;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
@@ -402,14 +527,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .privacy-note {
   display: flex; gap: 11px; align-items: flex-start;
-  padding: 12px; border-radius: var(--radius-sm);
+  padding: 12px; border-radius: var(--r-sm);
   background: var(--bg-sunken); color: var(--text-soft);
 }
 .privacy-note .icon { width: 19px; height: 19px; flex: none; margin-top: 2px; color: var(--text-faint); }
 .privacy-note b { display: block; color: var(--text); font-size: 14.5px; }
 .privacy-note p { font-size: 13px; margin-top: 2px; }
 
-/* Izpildīto darbu atdalītājs */
 .done-head {
   display: flex; align-items: center; gap: 8px; margin: 16px 2px 6px;
   color: var(--text-faint); font-size: 12px; font-weight: 700;
@@ -420,20 +544,20 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .linkbtn {
   border: none; background: transparent; color: var(--text-soft);
-  font-size: 12.5px; font-weight: 600; padding: 3px 6px; border-radius: 7px;
+  font-size: 12.5px; font-weight: 600; padding: 3px 6px; border-radius: var(--r-xs);
 }
 .linkbtn:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
 
 .empty {
   text-align: center; padding: 34px 20px; color: var(--text-faint);
-  border: 1.5px dashed var(--line); border-radius: var(--radius);
+  border: 1.5px dashed var(--line); border-radius: var(--r);
   background: color-mix(in srgb, var(--bg-elev) 55%, transparent);
 }
-.empty .icon { width: 30px; height: 30px; margin-bottom: 8px; opacity: 0.55; }
+.empty .icon { width: 30px; height: 30px; margin: 0 auto 8px; opacity: 0.55; }
 .empty b { display: block; color: var(--text-soft); font-size: 14.5px; margin-bottom: 2px; }
 .empty p { font-size: 13px; }
 
-/* --- 7. Jauna darba josla ekrāna APAKŠĀ ----------------------------------- */
+/* Jauna darba josla */
 .quickadd {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
@@ -445,7 +569,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   max-width: var(--maxw); margin: 0 auto;
   display: flex; align-items: center; gap: 4px;
   background: var(--bg-elev); border: 1px solid var(--line);
-  border-radius: 999px; padding: 3px 3px 3px 14px;
+  border-radius: var(--r-pill); padding: 3px 3px 3px 14px;
   box-shadow: var(--shadow-sm);
 }
 .quickadd-inner:focus-within { border-color: var(--accent); }
@@ -456,7 +580,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .qa-input:focus { outline: none; }
 .qa-input::placeholder { color: var(--text-faint); }
 .qa-btn {
-  width: 34px; height: 34px; border-radius: 999px; border: none;
+  width: 34px; height: 34px; border-radius: max(0px, calc(var(--r-pill) - 2px)); border: none;
   display: grid; place-items: center; background: transparent; color: var(--text-faint);
   flex: none;
 }
@@ -466,10 +590,10 @@ ul { list-style: none; margin: 0; padding: 0; }
 .qa-send:hover { background: var(--accent); filter: brightness(1.07); color: var(--accent-text); }
 .qa-send[disabled] { opacity: 0.35; pointer-events: none; }
 
-/* --- 8. Pogas un lauki ---------------------------------------------------- */
+/* Pogas un lauki */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  border-radius: var(--radius-sm); border: 1px solid var(--line);
+  border-radius: var(--r-sm); border: 1px solid var(--line);
   background: var(--bg-elev); color: var(--text);
   font-size: 15px; font-weight: 650; padding: 9px 15px; min-height: 40px;
   transition: filter 0.15s, background 0.15s, border-color 0.15s, transform 0.1s;
@@ -486,14 +610,14 @@ ul { list-style: none; margin: 0; padding: 0; }
 .btn-ghost { background: transparent; border-color: transparent; color: var(--text-soft); }
 .btn-ghost:hover { background: var(--bg-sunken); color: var(--text); }
 .btn-block { width: 100%; }
-.btn-sm { min-height: 34px; padding: 6px 12px; font-size: 13.5px; border-radius: 9px; }
+.btn-sm { min-height: 34px; padding: 6px 12px; font-size: 13.5px; }
 
 .field { display: flex; flex-direction: column; gap: 5px; }
 .label { font-size: 12.5px; font-weight: 700; color: var(--text-soft); }
 
 .input, .textarea, .select {
   width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--text);
-  border-radius: var(--radius-sm); padding: 9px 12px; font-size: 15.5px; min-height: 40px;
+  border-radius: var(--r-sm); padding: 9px 12px; font-size: 15.5px; min-height: 40px;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 .input:focus, .textarea:focus, .select:focus {
@@ -508,15 +632,14 @@ ul { list-style: none; margin: 0; padding: 0; }
   background-position: calc(100% - 16px) 54%, calc(100% - 11px) 54%;
   background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
 }
-.select-sm { min-height: 34px; padding: 5px 30px 5px 10px; font-size: 13.5px; width: auto; }
 
 .hint { font-size: 12.5px; color: var(--text-faint); line-height: 1.45; }
 
-.alert { border-radius: var(--radius-sm); padding: 9px 12px; font-size: 13.5px; font-weight: 550; border: 1px solid transparent; }
+.alert { border-radius: var(--r-sm); padding: 9px 12px; font-size: 13.5px; font-weight: 550; border: 1px solid transparent; }
 .alert-error { background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger); border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
 .alert-ok { background: color-mix(in srgb, var(--accent) 13%, transparent); color: color-mix(in srgb, var(--accent) 80%, var(--text)); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
 
-/* --- 9. Modālie logi ------------------------------------------------------ */
+/* Modālie logi */
 .backdrop {
   position: fixed; inset: 0; z-index: 100;
   background: rgba(10, 16, 22, 0.5); backdrop-filter: blur(3px);
@@ -528,7 +651,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .modal {
   width: 100%; max-width: 500px; background: var(--bg-elev);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: var(--shadow-lg);
+  border-radius: var(--r-lg) var(--r-lg) 0 0; box-shadow: var(--shadow-lg);
   max-height: 92vh; display: flex; flex-direction: column;
   animation: slideUp 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -545,7 +668,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .modal-foot .btn { flex: 1; }
 .modal-foot .btn-icon-only { flex: none; }
 
-/* --- 10. Ikonu un krāsu izvēle -------------------------------------------- */
+/* Ikonu un krāsu izvēle */
 .picker-group + .picker-group { margin-top: 10px; }
 .picker-label {
   font-size: 11px; font-weight: 700; color: var(--text-faint);
@@ -553,7 +676,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 5px; }
 .icon-choice {
-  aspect-ratio: 1; display: grid; place-items: center; border-radius: 10px;
+  aspect-ratio: 1; display: grid; place-items: center; border-radius: var(--r-sm);
   border: 1px solid var(--line); background: var(--bg); color: var(--text-soft);
   transition: all 0.14s;
 }
@@ -563,15 +686,42 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .color-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .color-dot {
-  width: 30px; height: 30px; border-radius: 999px; border: 2px solid transparent;
-  background: var(--bg); display: grid; place-items: center; padding: 0;
+  position: relative; width: 30px; height: 30px; border-radius: var(--r-pill); border: 2px solid transparent;
+  background: var(--bg); display: grid; place-items: center; padding: 0; cursor: pointer;
 }
-.color-dot i { width: 19px; height: 19px; border-radius: 999px; background: var(--sc); display: block; }
+.color-dot i { width: 19px; height: 19px; border-radius: max(0px, calc(var(--r-pill) - 3px)); background: var(--sc); display: block; }
 .color-dot.on { border-color: var(--sc); }
+.color-dot.custom i { background: conic-gradient(#e5484d, #f5a524, #e8d53a, #46a758, #12a594, #3e63dd, #8e4ec6, #e5484d); }
+.color-dot.custom.on { border-color: var(--custom); }
+.color-dot.custom.on i { background: var(--custom); }
+.color-dot input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
 
 .scroll-box { max-height: 200px; overflow-y: auto; padding-right: 2px; }
 
-/* --- 10b. Sākuma lapa ----------------------------------------------------- */
+.invite-form { gap: 9px; }
+.sec-picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.sec-pick {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 11px 6px 8px; border-radius: var(--r-pill);
+  border: 1px solid var(--line); background: var(--bg); color: var(--text-soft);
+  font-size: 13.5px; font-weight: 600; white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.sec-pick:hover { border-color: var(--line-strong); color: var(--text); }
+.sec-pick > .icon { width: 16px; height: 16px; color: var(--sc); }
+.sec-check {
+  width: 17px; height: 17px; flex: none; display: grid; place-items: center;
+  border-radius: var(--r-xs); border: 1.5px solid var(--line-strong); color: transparent;
+}
+.sec-check .icon { width: 12px; height: 12px; }
+:root[data-tick='circle'] .sec-check { border-radius: 50%; }
+.sec-pick.on {
+  background: color-mix(in srgb, var(--sc) 13%, var(--bg-elev));
+  border-color: color-mix(in srgb, var(--sc) 50%, transparent); color: var(--text);
+}
+.sec-pick.on .sec-check { background: var(--sc); border-color: var(--sc); color: var(--accent-on); }
+
+/* Sākuma lapa */
 .home-brand { font-size: 16.5px; font-weight: 700; letter-spacing: -0.015em; margin-left: 8px; }
 
 .home-greet { margin: 4px 2px 18px; }
@@ -586,11 +736,15 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .board-grid { display: grid; gap: 9px; grid-template-columns: 1fr; }
 @media (min-width: 640px) { .board-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) {
+  :root[data-width='wide'] .board-grid,
+  :root[data-width='full'] .board-grid { grid-template-columns: repeat(3, 1fr); }
+}
 
 .board-card {
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
   padding: 13px 13px 13px 12px; background: var(--bg-elev);
-  border: 1px solid var(--line); border-radius: var(--radius);
+  border: 1px solid var(--line); border-radius: var(--r);
   transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
 }
 .board-card:hover { border-color: var(--line-strong); box-shadow: var(--shadow-md); }
@@ -598,15 +752,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 .board-card[disabled] { opacity: 0.5; pointer-events: none; }
 
 .board-card-icon {
-  width: 38px; height: 38px; border-radius: 11px; flex: none;
+  width: 38px; height: 38px; border-radius: var(--r-sm); flex: none;
   display: grid; place-items: center;
   background: color-mix(in srgb, var(--accent) 15%, transparent);
   color: color-mix(in srgb, var(--accent) 85%, var(--text));
 }
 .board-card-icon .icon { width: 19px; height: 19px; }
-.board-card-icon.dashed {
-  background: transparent; border: 1.5px dashed var(--line-strong); color: var(--text-faint);
-}
+.board-card-icon.dashed { background: transparent; border: 1.5px dashed var(--line-strong); color: var(--text-faint); }
 
 .board-card-main { flex: 1; min-width: 0; }
 .board-card-name {
@@ -616,29 +768,34 @@ ul { list-style: none; margin: 0; padding: 0; }
 .board-card-meta { display: block; font-size: 12.5px; color: var(--text-faint); margin-top: 1px; }
 
 .board-card-count {
-  flex: none; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px;
+  flex: none; min-width: 24px; height: 24px; padding: 0 7px; border-radius: var(--r-pill);
   display: grid; place-items: center; font-size: 12.5px; font-weight: 700;
   background: color-mix(in srgb, var(--accent) 16%, transparent);
   color: color-mix(in srgb, var(--accent) 85%, var(--text));
 }
 .board-card-chev { color: var(--text-faint); width: 17px; height: 17px; flex: none; }
 
-/* --- 11. Iestatījumu lapa ------------------------------------------------- */
+/* Iestatījumu lapa */
 .page { flex: 1; width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 14px 12px 50px; }
 
 .pagebar { display: flex; align-items: center; gap: 4px; }
 .pagebar-title { font-size: 17px; font-weight: 700; letter-spacing: -0.015em; }
 
+.settings-nav .tab { --sc: var(--accent); }
+
 .card {
   background: var(--bg-elev); border: 1px solid var(--line);
-  border-radius: var(--radius); overflow: hidden;
+  border-radius: var(--r); overflow: hidden;
+  scroll-margin-top: calc(var(--header-h) + 64px + env(safe-area-inset-top));
 }
 .card + .card { margin-top: 14px; }
 .card-head {
+  display: flex; align-items: center; gap: 8px;
   padding: 11px 14px 9px; font-size: 11.5px; font-weight: 700;
   color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.07em;
   border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg-sunken) 55%, transparent);
 }
+.card-head .linkbtn { margin-left: auto; text-transform: none; letter-spacing: 0; white-space: nowrap; }
 
 .row {
   display: flex; align-items: center; gap: 12px; padding: 11px 14px;
@@ -653,33 +810,66 @@ button.row:hover { background: var(--bg-sunken); }
 .row-label[data-color] .icon { color: var(--sc); }
 .row-hint { font-size: 12.5px; color: var(--text-faint); margin-top: 1px; }
 .row-end { flex: none; display: flex; align-items: center; gap: 8px; color: var(--text-faint); }
+.row-value { font-size: 13px; font-weight: 700; color: var(--text-soft); font-variant-numeric: tabular-nums; }
 .row.danger .row-label { color: var(--danger); }
 .row.danger .row-label .icon { color: var(--danger); }
 .row-stack { display: block; }
 .row-stack .inline-form { margin-top: 8px; }
 
-.seg { display: flex; gap: 2px; background: var(--bg-sunken); padding: 3px; border-radius: 10px; flex: none; }
+.seg {
+  display: flex; flex-wrap: wrap; gap: 2px; background: var(--bg-sunken); padding: 3px;
+  border-radius: var(--r-sm); flex: none; max-width: 100%;
+}
 .seg button {
-  padding: 5px 10px; border: none; background: transparent; border-radius: 8px;
+  padding: 5px 10px; border: none; background: transparent; border-radius: max(0px, calc(var(--r-sm) - 2px));
   font-size: 13px; font-weight: 650; color: var(--text-soft); white-space: nowrap;
 }
 .seg button.on { background: var(--bg-elev); color: var(--text); box-shadow: var(--shadow-sm); }
 
 .switch {
-  width: 44px; height: 26px; border-radius: 999px; background: var(--line-strong);
+  width: 44px; height: 26px; border-radius: var(--r-pill); background: var(--line-strong);
   border: none; position: relative; transition: background 0.18s; flex: none; padding: 0;
 }
 .switch::after {
   content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px;
-  border-radius: 999px; background: #fff; transition: transform 0.18s;
+  border-radius: max(0px, calc(var(--r-pill) - 3px)); background: #fff; transition: transform 0.18s;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 .switch.on { background: var(--accent); }
 .switch.on::after { transform: translateX(18px); }
 
-/* --- 12. Dalībnieki ------------------------------------------------------- */
+.range-wrap { display: flex; align-items: center; gap: 10px; margin-top: 9px; }
+.range-wrap .aa { color: var(--text-faint); font-weight: 700; flex: none; }
+.range { flex: 1; min-width: 0; accent-color: var(--accent); height: 26px; }
+
+.choice-grid {
+  display: grid; gap: 8px; margin-top: 9px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.choice {
+  display: block; width: 100%; text-align: left;
+  padding: 10px 12px; border-radius: var(--r-sm);
+  border: 1px solid var(--line); background: var(--bg); color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+}
+.choice:hover { border-color: var(--line-strong); }
+.choice.on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg-elev));
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.choice b { display: block; font-size: 14.5px; font-weight: 700; }
+.choice small { display: block; font-size: 12px; color: var(--text-faint); margin-top: 1px; }
+.choice .aa { display: block; font-size: 22px; font-weight: 600; line-height: 1.2; }
+
+.preview { padding: 12px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.preview-tabs { display: flex; gap: 6px; overflow: hidden; margin: -2px 0 12px; }
+:root[data-tabs='underline'] .preview-tabs { gap: 2px; border-bottom: 1px solid var(--line); }
+.preview .done-head { margin-top: 12px; }
+
+/* Dalībnieki */
 .avatar {
-  width: 32px; height: 32px; border-radius: 999px; display: grid; place-items: center;
+  width: 32px; height: 32px; border-radius: var(--r-pill); display: grid; place-items: center;
   background: color-mix(in srgb, var(--accent) 18%, transparent);
   color: color-mix(in srgb, var(--accent) 85%, var(--text));
   font-weight: 700; font-size: 13.5px; flex: none; text-transform: uppercase;
@@ -699,7 +889,7 @@ button.row:hover { background: var(--bg-sunken); }
 .member-role { font-size: 12.5px; color: var(--text-faint); }
 
 .badge {
-  font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+  font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: var(--r-pill);
   background: var(--bg-sunken); color: var(--text-soft);
   text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
 }
@@ -707,30 +897,16 @@ button.row:hover { background: var(--bg-sunken); }
 .inline-form { display: flex; gap: 8px; }
 .inline-form .input { flex: 1; }
 
-.menu-list { display: flex; flex-direction: column; gap: 2px; }
-.menu-item {
-  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
-  padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid transparent;
-  background: transparent; font-size: 15px; font-weight: 550;
-}
-.menu-item:hover { background: var(--bg-sunken); }
-.menu-item.on { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
-.menu-item .icon { width: 18px; height: 18px; color: var(--text-faint); }
-.menu-item.on .icon { color: var(--accent); }
-.menu-item small { display: block; font-size: 12.5px; color: var(--text-faint); font-weight: 500; }
-.menu-item[disabled] { opacity: 0.5; pointer-events: none; }
-.menu-item > span { flex: 1; min-width: 0; }
-
-/* --- 13. Pieteikšanās ----------------------------------------------------- */
+/* Pieteikšanās */
 .auth { min-height: 100%; display: grid; place-items: center; padding: 24px 16px calc(24px + env(safe-area-inset-bottom)); }
 .auth-card {
   width: 100%; max-width: 390px; background: var(--bg-elev);
-  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  border: 1px solid var(--line); border-radius: var(--r-lg);
   box-shadow: var(--shadow-md); padding: 24px 20px;
   display: flex; flex-direction: column; gap: 13px;
 }
 .auth-logo {
-  width: 50px; height: 50px; border-radius: 15px; background: var(--accent);
+  width: 50px; height: 50px; border-radius: var(--r-lg); background: var(--accent);
   color: var(--accent-text); display: grid; place-items: center; margin: 0 auto 2px;
 }
 .auth-logo .icon { width: 27px; height: 27px; }
@@ -742,7 +918,6 @@ button.row:hover { background: var(--bg-sunken); }
 .divider-or { display: flex; align-items: center; gap: 10px; color: var(--text-faint); font-size: 12.5px; font-weight: 600; }
 .divider-or::before, .divider-or::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 
-/* Paroles lauks ar actiņu */
 .label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .linkish {
   border: none; background: none; padding: 0; color: var(--accent);
@@ -756,32 +931,24 @@ button.row:hover { background: var(--bg-sunken); }
 .pw-toggle {
   position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
   width: 34px; height: 34px; display: grid; place-items: center;
-  border: none; background: transparent; color: var(--text-faint); border-radius: 8px;
+  border: none; background: transparent; color: var(--text-faint); border-radius: var(--r-xs);
 }
 .pw-toggle:hover { color: var(--text); background: var(--bg-sunken); }
 .pw-toggle .icon { width: 18px; height: 18px; }
 
 .center-note { text-align: center; padding: 60px 20px; color: var(--text-faint); }
 
-.demo-banner {
-  background: color-mix(in srgb, var(--warn) 15%, transparent);
-  color: color-mix(in srgb, var(--warn) 75%, var(--text));
-  border-bottom: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
-  font-size: 12px; font-weight: 650; text-align: center; padding: 5px 12px;
-}
-
-/* --- 14. Ekrāna izmēri ---------------------------------------------------- */
-@media (max-width: 560px) {
-  /* Iestatījumos izvēles pogas pārceļas zem paskaidrojuma */
+/* Ekrāna izmēri */
+@media (max-width: 640px) {
   .row-seg { flex-wrap: wrap; row-gap: 9px; }
   .row-seg .row-main { flex: 1 1 100%; }
-  .row-seg .seg { width: 100%; }
-  .row-seg .seg button { flex: 1; padding: 6px 4px; font-size: 12.5px; }
+  .row-seg .seg { width: 100%; flex-wrap: nowrap; }
+  .row-seg .seg button { flex: 1; min-width: 0; padding: 6px 3px; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; }
 }
 
 @media (min-width: 560px) {
   .backdrop { align-items: center; padding: 20px; }
-  .modal { border-radius: var(--radius-lg); }
+  .modal { border-radius: var(--r-lg); }
   .modal-foot { padding-bottom: 14px; }
 }
 
@@ -790,7 +957,14 @@ button.row:hover { background: var(--bg-sunken); }
   .main, .page { padding-left: 20px; padding-right: 20px; }
   .topbar-inner, .tabs-scroller { padding-left: 20px; padding-right: 20px; }
   .quickadd { padding-left: 20px; padding-right: 20px; }
-  .section-title { font-size: 21px; }
+  .section-title { font-size: calc(21px * var(--fs)); }
+}
+
+:root[data-motion='off'] *,
+:root[data-motion='off'] *::before,
+:root[data-motion='off'] *::after {
+  animation: none !important;
+  transition: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

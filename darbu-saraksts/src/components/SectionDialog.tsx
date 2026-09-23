@@ -20,7 +20,6 @@ export default function SectionDialog({ section, onClose, onSave, onDelete }: Pr
 
   const valid = name.trim().length > 0;
 
-  // Ja kaut kas ir ierakstīts vai mainīts, nejaušs pieskāriens blakus logam to neaizver
   const dirty =
     name !== (section?.name ?? '') ||
     icon !== (section?.icon ?? 'list') ||

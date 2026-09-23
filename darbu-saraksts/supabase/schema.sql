@@ -128,6 +128,18 @@ returns boolean language sql stable security definer set search_path = public as
     );
 $$;
 
+-- Vai esmu uzaicināts uz šo sadaļu?
+-- SVARĪGI: šī funkcija skatās TIKAI section_members tabulā un nevis sections.
+-- Tas vajadzīgs, lai sadaļas izveides brīdī (insert ... returning) politika
+-- nemēģinātu atrast vēl neierakstītu rindu — pretējā gadījumā datubāze atsaka.
+create or replace function public.is_section_member(p_section uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (
+    select 1 from public.section_members m
+    where m.section_id = p_section and m.user_id = auth.uid()
+  );
+$$;
+
 -- Vai šis saraksts man vispār ir redzams? (savs vai ir pieeja kādai tā sadaļai)
 create or replace function public.can_board(p_board uuid)
 returns boolean language sql stable security definer set search_path = public as $$
@@ -218,7 +230,11 @@ create policy boards_delete on public.boards for delete using (owner_id = auth.u
 -- sections: redzēt drīkst uzaicinātie, bet veidot/labot/dzēst — tikai īpašnieks
 drop policy if exists sections_all on public.sections;
 drop policy if exists sections_select on public.sections;
-create policy sections_select on public.sections for select using (public.can_section(id));
+-- Nosacījums balstās uz pašas rindas kolonnām (board_id) un section_members,
+-- nevis uz meklēšanu sections tabulā — citādi tikko izveidota sadaļa sev pašai
+-- nav redzama un datubāze atsaka tās izveidi.
+create policy sections_select on public.sections
+  for select using (public.owns_board(board_id) or public.is_section_member(id));
 
 drop policy if exists sections_insert on public.sections;
 create policy sections_insert on public.sections
@@ -456,6 +472,7 @@ grant execute on function public.invite_to_section(uuid, text) to authenticated;
 grant execute on function public.owns_board(uuid)              to authenticated;
 grant execute on function public.owns_section(uuid)            to authenticated;
 grant execute on function public.can_section(uuid)             to authenticated;
+grant execute on function public.is_section_member(uuid)       to authenticated;
 grant execute on function public.can_board(uuid)               to authenticated;
 
 -- ----------------------------------------------------------------------------
@@ -467,6 +484,31 @@ begin
   begin alter publication supabase_realtime add table public.tasks;    exception when others then null; end;
   begin alter publication supabase_realtime add table public.sections; exception when others then null; end;
 end $$;
+
+-- ----------------------------------------------------------------------------
+-- 10. APSTIPRINĀJUMS
+--     Ja šis fails izpildījies līdz galam, Supabase SQL Editor apakšā parādīsies
+--     tabula ar versiju un pārbaudēm. Ja tās nav — kaut kas apstājies pusceļā.
+-- ----------------------------------------------------------------------------
+
+select parbaude, rezultats from (
+  select 1 as n, 'Shēmas versija' as parbaude, '2026-09-22 (sadaļu izveide salabota)' as rezultats
+  union all select 2, 'Sadaļu izveides labojums',
+    case when (select qual from pg_policies
+               where schemaname = 'public' and tablename = 'sections'
+                 and policyname = 'sections_select') like '%owns_board%'
+         then 'ir' else 'TRŪKST' end
+  union all select 3, 'Izskata glabāšana kontā',
+    case when exists (select 1 from information_schema.columns
+                      where table_schema = 'public' and table_name = 'profiles'
+                        and column_name = 'settings')
+         then 'ir' else 'TRŪKST' end
+  union all select 4, 'Kopīgošana pa sadaļām',
+    case when to_regclass('public.section_members') is null then 'TRŪKST' else 'ir' end
+  union all select 5, 'Tavi saraksti', (select count(*)::text from public.boards)
+  union all select 6, 'Tavas sadaļas', (select count(*)::text from public.sections)
+  union all select 7, 'Tavi darbi', (select count(*)::text from public.tasks)
+) t order by n;
 
 -- ============================================================================
 --  Gatavs.

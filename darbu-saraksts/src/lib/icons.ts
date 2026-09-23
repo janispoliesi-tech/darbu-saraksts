@@ -1,12 +1,6 @@
-/* ============================================================================
-   Ikonu komplekts sadaļām.
-   Katra ikona ir SVG saturs 24x24 rūtiņā (stroke = currentColor).
-   Jaunu ikonu pievienot ļoti vienkārši: pieliec rindu ICONS sarakstā
-   un ieraksti tās atslēgu vienā no ICON_GROUPS grupām.
-   ========================================================================= */
+import { COLORS } from './colors';
 
 export const ICONS: Record<string, string> = {
-  /* --- Mājas un sadzīve --- */
   home: '<path d="M3 10.6 12 3l9 7.6"/><path d="M5.5 9.7V19a2 2 0 0 0 2 2H10v-6h4v6h2.5a2 2 0 0 0 2-2V9.7"/>',
   bed: '<path d="M3 19V8"/><path d="M3 13h14a4 4 0 0 1 4 4v2"/><path d="M3 19h18"/><circle cx="7.5" cy="10.5" r="1.8"/>',
   broom: '<path d="m19 3-7 7"/><path d="M11 9 5.5 14.5c-1.6 1.6-1.6 3.9 0 5.5h7.8c1.6-1.6 1.6-3.9 0-5.5z"/><path d="M8.2 20v-4M11.4 20v-4"/>',
@@ -19,7 +13,6 @@ export const ICONS: Record<string, string> = {
   key: '<circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5"/><path d="m17 5.5 2 2M14.8 7.7l2 2"/>',
   lock: '<rect x="4.5" y="10" width="15" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
 
-  /* --- Būvniecība --- */
   bricks: '<rect x="3" y="6" width="18" height="12" rx="1"/><path d="M3 12h18"/><path d="M8.5 6v6M16 6v6M12 12v6"/>',
   hammer: '<path d="M11.4 7.6 4.6 14.4a2 2 0 0 0 2.8 2.8l6.8-6.8"/><path d="M13.4 2 21 9.6l-3.2 3.2-7.6-7.6z"/><path d="m12.2 4.6 4.6 4.6"/>',
   helmet: '<path d="M12 4a6 6 0 0 0-6 6v4h12v-4a6 6 0 0 0-6-6z"/><path d="M3 14h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9.5 4.8V10M14.5 4.8V10"/>',
@@ -35,7 +28,6 @@ export const ICONS: Record<string, string> = {
   box: '<path d="m12 3 9 4.5v9L12 21l-9-4.5v-9z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9"/>',
   truck: '<rect x="1.5" y="6" width="12" height="9" rx="1.5"/><path d="M13.5 9h3.8l3.2 3.3V15h-7z"/><circle cx="6" cy="17.5" r="2"/><circle cx="17" cy="17.5" r="2"/>',
 
-  /* --- Teritorija un āra darbi --- */
   tree: '<path d="M12 3 6.5 11h3L5 17h14l-4.5-6h3z"/><path d="M12 17v4"/>',
   leaf: '<path d="M20 4c0 9-6.5 15-15 15-.9 0-1.7-.1-2.5-.3C2.7 10 9.5 4 20 4z"/><path d="M4 20c2.5-5.5 6.5-9.5 11-11.5"/>',
   seedling: '<path d="M12 21v-7"/><path d="M12 14C12 10.7 9.3 8 6 8c0 3.3 2.7 6 6 6z"/><path d="M12 14c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6z"/>',
@@ -50,7 +42,6 @@ export const ICONS: Record<string, string> = {
   fire: '<path d="M12 22a7 7 0 0 0 7-7c0-5-5-8-7-13-2 5-7 8-7 13a7 7 0 0 0 7 7z"/><path d="M12 22a3 3 0 0 0 3-3c0-2-2-3.4-3-5.4-1 2-3 3.4-3 5.4a3 3 0 0 0 3 3z"/>',
   pin: '<path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
 
-  /* --- Vispārīgi --- */
   list: '<path d="M8.5 6H21M8.5 12H21M8.5 18H21"/><circle cx="4" cy="6" r="1.2"/><circle cx="4" cy="12" r="1.2"/><circle cx="4" cy="18" r="1.2"/>',
   check: '<circle cx="12" cy="12" r="9"/><path d="m8 12.4 2.6 2.6L16 9.6"/>',
   star: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
@@ -97,22 +88,8 @@ export const ICON_GROUPS: IconGroup[] = [
   },
 ];
 
-/* Krāsas, ko var piešķirt sadaļai */
-type ColorKey = 'teal' | 'green' | 'amber' | 'orange' | 'red' | 'pink' | 'violet' | 'blue' | 'slate';
+export const SECTION_COLORS = COLORS;
 
-export const SECTION_COLORS: { key: ColorKey; label: string }[] = [
-  { key: 'teal', label: 'Tirkīza' },
-  { key: 'green', label: 'Zaļa' },
-  { key: 'amber', label: 'Dzintara' },
-  { key: 'orange', label: 'Oranža' },
-  { key: 'red', label: 'Sarkana' },
-  { key: 'pink', label: 'Rozā' },
-  { key: 'violet', label: 'Violeta' },
-  { key: 'blue', label: 'Zila' },
-  { key: 'slate', label: 'Pelēka' },
-];
-
-/* Saskarnes ikonas (pogas, izvēlnes) — nav paredzētas sadaļām */
 const UI: Record<string, string> = {
   plus: '<path d="M12 5v14M5 12h14"/>',
   close: '<path d="M6 6l12 12M18 6 6 18"/>',
@@ -136,6 +113,20 @@ const UI: Record<string, string> = {
   brush: '<path d="M14 3.5 20.5 10l-7.5 7.5a3 3 0 0 1-4.2 0L6.5 15.2a3 3 0 0 1 0-4.2z"/><path d="M6 17c-1.5 1-2 2.5-2 4 1.5 0 3-.5 4-2"/>',
   gear: '<circle cx="12" cy="12" r="3.1"/><path d="M19.2 14.3a1.5 1.5 0 0 0 .3 1.7l.1.1a1.9 1.9 0 1 1-2.7 2.7l-.1-.1a1.5 1.5 0 0 0-2.6 1.1v.2a1.9 1.9 0 1 1-3.8 0v-.1a1.5 1.5 0 0 0-2.6-1.1l-.1.1a1.9 1.9 0 1 1-2.7-2.7l.1-.1a1.5 1.5 0 0 0-1.1-2.6h-.2a1.9 1.9 0 1 1 0-3.8h.1a1.5 1.5 0 0 0 1.1-2.6l-.1-.1a1.9 1.9 0 1 1 2.7-2.7l.1.1a1.5 1.5 0 0 0 1.7.3h.1a1.5 1.5 0 0 0 .9-1.4v-.2a1.9 1.9 0 1 1 3.8 0v.1a1.5 1.5 0 0 0 2.6 1.1l.1-.1a1.9 1.9 0 1 1 2.7 2.7l-.1.1a1.5 1.5 0 0 0-.3 1.7v.1a1.5 1.5 0 0 0 1.4.9h.2a1.9 1.9 0 1 1 0 3.8h-.1a1.5 1.5 0 0 0-1.4.9z"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/>',
+  tick: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  sparkles: '<path d="m12 3 1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8z"/><path d="m19 15 .8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8z"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+  contrast: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>',
+  corner: '<path d="M4 20v-9a7 7 0 0 1 7-7h9"/>',
+  width: '<path d="M3 12h18"/><path d="m7 8-4 4 4 4M17 8l4 4-4 4"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+  rows: '<rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/>',
+  bold: '<path d="M7 4h6a4 4 0 0 1 0 8H7z"/><path d="M7 12h7a4 4 0 0 1 0 8H7z"/>',
+  motion: '<path d="M4 12h9M2 7h7M2 17h7"/><circle cx="17.5" cy="12" r="3.5"/>',
+  tabs: '<path d="M3 20V8a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9"/><path d="M3 20h18"/>',
+  square: '<rect x="4" y="4" width="16" height="16" rx="2"/>',
+  header: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
+  font: '<path d="m3 19 5.5-14L14 19"/><path d="M5.2 14h6.6"/><circle cx="18" cy="16" r="3"/><path d="M21 13v6"/>',
   google:
     '<path fill="currentColor" stroke="none" d="M21.6 12.23c0-.68-.06-1.36-.18-2.02H12v3.83h5.4a4.6 4.6 0 0 1-2 3.03v2.5h3.23c1.9-1.74 2.98-4.31 2.98-7.34z"/><path fill="currentColor" stroke="none" opacity=".75" d="M12 22c2.7 0 4.96-.9 6.62-2.43l-3.23-2.5c-.9.6-2.05.95-3.39.95-2.6 0-4.8-1.75-5.6-4.11H3.08v2.58A10 10 0 0 0 12 22z"/><path fill="currentColor" stroke="none" opacity=".55" d="M6.4 13.91a6 6 0 0 1 0-3.82V7.51H3.08a10 10 0 0 0 0 8.98l3.32-2.58z"/><path fill="currentColor" stroke="none" opacity=".85" d="M12 5.98c1.47 0 2.79.5 3.83 1.5l2.86-2.86C16.95 2.99 14.7 2 12 2a10 10 0 0 0-8.92 5.51L6.4 10.1c.8-2.37 3-4.12 5.6-4.12z"/>',
 };

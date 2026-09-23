@@ -8,17 +8,14 @@ type Props = {
   sections: Section[];
   activeId: string | null;
   counts: Record<string, number>;
-  /** Cik cilvēkiem ir pieeja katrai sadaļai (0 = privāta) */
   shared?: Record<string, number>;
   onSelect: (id: string) => void;
-  /** Ja nav norādīts, poga „+ Sadaļa“ netiek rādīta (nav īpašnieks) */
   onAdd?: () => void;
 };
 
 export default function SectionTabs({ sections, activeId, counts, shared, onSelect, onAdd }: Props) {
   const scroller = useRef<HTMLDivElement>(null);
 
-  // Aktīvo cilni ievelk redzamajā daļā (svarīgi uz telefona)
   useEffect(() => {
     const el = scroller.current?.querySelector<HTMLElement>('.tab.is-active');
     el?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -38,7 +35,7 @@ export default function SectionTabs({ sections, activeId, counts, shared, onSele
               onClick={() => onSelect(s.id)}
               aria-current={s.id === activeId ? 'page' : undefined}
             >
-              <Icon name={s.icon} />
+              <Icon name={s.icon} className="tab-icon" />
               {s.name}
               {sh > 0 ? <Icon name="users" className="tab-shared" /> : null}
               {n > 0 ? <span className="tab-count">{n}</span> : null}

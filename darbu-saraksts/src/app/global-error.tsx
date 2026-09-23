@@ -2,7 +2,6 @@
 
 import './globals.css';
 
-/** Pēdējais drošības tīkls, ja kļūda rodas pašā lapas pamatā. */
 export default function GlobalError({
   error,
   reset,

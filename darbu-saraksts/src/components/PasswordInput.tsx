@@ -12,7 +12,6 @@ type Props = {
   autoFocus?: boolean;
 };
 
-/** Paroles lauks ar pogu, kas parāda vai paslēpj ierakstīto. */
 export default function PasswordInput({
   id, value, onChange, placeholder, autoComplete, autoFocus,
 }: Props) {

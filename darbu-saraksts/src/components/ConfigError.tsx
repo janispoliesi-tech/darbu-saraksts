@@ -3,7 +3,6 @@
 import type { ConfigProblem } from '@/lib/supabase';
 import Icon from './Icon';
 
-/** Saprotams paziņojums, ja Supabase savienojums nav uzstādīts pareizi. */
 export default function ConfigError({ problem }: { problem: ConfigProblem }) {
   return (
     <div className="auth">

@@ -2,24 +2,13 @@
 
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-/* ============================================================================
-   Savienojums ar Supabase.
-   Šis fails NEKAD nemet kļūdu ielādes laikā — ja vides mainīgie ir tukši vai
-   nepareizi, aplikācija parāda saprotamu paziņojumu, nevis tukšu ekrānu.
-   ========================================================================= */
-
-/** Noņem nejauši pielipušās pēdiņas, atstarpes un rindu pārnesumus. */
 function clean(value: string | undefined): string {
   return (value ?? '')
-    .replace(/^\s*['"`]?|['"`]?\s*$/g, '') // pēdiņas ap vērtību
-    .replace(/[\s​]/g, '') // atstarpes, rindu pārnesumi
-    .replace(/\/+$/, ''); // slīpsvītra beigās
+    .replace(/^\s*['"`]?|['"`]?\s*$/g, '')
+    .replace(/[\s​]/g, '')
+    .replace(/\/+$/, '');
 }
 
-/**
- * Ja adrese ielīmēta bez "https://" (piem., "abcdefg.supabase.co"),
- * pievieno to pati — tā ir visbiežākā pārrakstīšanās, un tā nav iemesls avārijai.
- */
 function withScheme(value: string): string {
   if (!value) return '';
   if (/^[a-z][a-z0-9+.-]*:\/\//i.test(value)) return value;
@@ -27,10 +16,6 @@ function withScheme(value: string): string {
   return value;
 }
 
-/**
- * Noņem lieko ceļu aiz adreses. Supabase klients pats pieliek /auth/v1, /rest/v1 utt.,
- * tāpēc adresei jābeidzas ar domēnu — citādi rodas "Invalid path specified in request URL".
- */
 function stripApiPath(value: string): string {
   try {
     const u = new URL(value);
@@ -50,7 +35,6 @@ export type ConfigProblem = {
   title: string;
   what: string;
   fix: string;
-  /** Ko lietotājs ievadījis (bez slepenajām daļām) */
   seen?: string;
 };
 
@@ -72,7 +56,6 @@ function detectProblem(): ConfigProblem | null {
     };
   }
 
-  // Bieža kļūda: adreses laukā ielīmēta atslēga
   if (/^(sb_publishable_|sb_secret_|eyJ)/.test(url)) {
     return {
       title: 'Adreses laukā ievadīta atslēga',
@@ -85,7 +68,6 @@ function detectProblem(): ConfigProblem | null {
     };
   }
 
-  // Vai adrese vispār ir adrese?
   let parsed: URL | null = null;
   try {
     parsed = new URL(url);
@@ -102,7 +84,6 @@ function detectProblem(): ConfigProblem | null {
     };
   }
 
-  // Bieža kļūda: nokopēta pārlūka adrešu josla, nevis Project URL
   if (/(^|\.)supabase\.com$/i.test(parsed.hostname) || parsed.pathname.includes('/dashboard')) {
     return {
       title: 'Nokopēta nepareizā adrese',
@@ -112,7 +93,6 @@ function detectProblem(): ConfigProblem | null {
     };
   }
 
-  // Bieža kļūda: adrese un atslēga samainītas vietām
   if (/^https?:/i.test(anonKey) || anonKey.includes('supabase.co')) {
     return {
       title: 'Adrese un atslēga samainītas vietām',
@@ -132,15 +112,10 @@ function detectProblem(): ConfigProblem | null {
   return null;
 }
 
-/** Ja nav null — aplikācija nevar startēt, un jārāda paskaidrojums. */
 export const CONFIG_PROBLEM: ConfigProblem | null = detectProblem();
 
 let cached: SupabaseClient | null = null;
 
-/**
- * Pārlūka Supabase klients. Sesija tiek glabāta lokāli un atjaunota automātiski.
- * detectSessionInUrl ļauj apstrādāt e-pasta apstiprinājuma un Google atgriešanās saites.
- */
 export function getSupabase(): SupabaseClient {
   if (cached) return cached;
   cached = createClient(url, anonKey, {

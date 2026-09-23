@@ -2,10 +2,6 @@
 
 import { useEffect } from 'react';
 
-/**
- * Drošības tīkls: ja kaut kur rodas negaidīta kļūda, lietotājs redz
- * saprotamu paziņojumu latviski, nevis tukšu ekrānu.
- */
 export default function ErrorPage({
   error,
   reset,
